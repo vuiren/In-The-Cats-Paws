@@ -1,0 +1,23 @@
+{
+    "name": "GameCode",
+    "rootNamespace": "",
+    "references": [
+        "GUID:831409e8f9d13b5479a3baef9822ad34",
+        "GUID:57c32fc907df0f54e8e6e8f0d2488336",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:b31eefb058a2485469f589df86bbbd32"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Photon3Unity3D.dll",
+        "Zenject-usage.dll",
+        "DOTween.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
