@@ -99,8 +99,8 @@ namespace Game_Code.Services
         public bool CanUnitGoToRoom(Unit unit, Room targetRoom)
         {
             var unitRoom = FindUnitRoom(unit);
-
-            return unitRoom.GetAvailableRooms().Any(x => targetRoom);
+            var availableRooms = unitRoom.GetAvailableRooms();
+            return availableRooms.Contains(targetRoom);
         }
     }
 }

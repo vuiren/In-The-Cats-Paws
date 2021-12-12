@@ -68,11 +68,6 @@ namespace Game_Code.MonoBehaviours.Level
 		{
 			_pointsForUnitsQueue.Enqueue(point);
 		}
-		
-		public void AddCorridor(Corridor corridor)
-		{
-			corridors.Add(corridor);
-		}
 
 		public void EnableRoom()
 		{

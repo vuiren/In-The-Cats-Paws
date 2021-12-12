@@ -13,14 +13,6 @@ namespace Game_Code.MonoBehaviours.Level
 		public IEnumerable<Room> ConnectedRooms => connectedRooms;
 		public Door Door => door;
 
-		private void Awake()
-		{
-			foreach(var e in connectedRooms)
-			{
-				e.AddCorridor(this);
-			}
-		}
-
 		private void OnDrawGizmos()
 		{
 			if (connectedRooms.Length == 0) return;
