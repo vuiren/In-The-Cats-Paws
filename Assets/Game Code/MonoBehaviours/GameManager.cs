@@ -43,10 +43,11 @@ namespace Game_Code.MonoBehaviours
 			switch (_currentPlayerManager.CurrentPlayerType)
 			{
 				case PlayerType.Engineer:
-					_roomsVisibilityService.HideAllRooms();
+					_roomsVisibilityService.HideAllRooms(true,true);
 					break;
 				case PlayerType.SmartCat:
-					_roomsVisibilityService.ShowAllRooms();
+					_roomsVisibilityService.HideAllRooms(true,true);
+					_roomsVisibilityService.ShowAllRooms(true,false);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

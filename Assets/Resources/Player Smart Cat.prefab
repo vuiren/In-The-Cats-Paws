@@ -51,7 +51,6 @@ MonoBehaviour:
   unitsLayers:
     serializedVersion: 2
     m_Bits: 64
-  units: []
 --- !u!114 &6756852357598407606
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ namespace Game_Code
         public override void InstallBindings()
         {
             Container.Bind<ILogger>().To<Logger>().AsSingle();
+            Container.Bind<UnitsPainterController>().ToSelf().AsSingle().NonLazy();
             
             BindPrimitiveSingle();
             BindAllFromInstance();
@@ -34,7 +35,8 @@ namespace Game_Code
             Container.Bind<ITurnService>().To<TurnService>().AsSingle();
             Container.Bind<IPlayersService>().To<PlayersService>().AsSingle();
             Container.Bind<IUnitRoomService>().To<UnitRoomService>().AsSingle();        
-            Container.Bind<IDoorsService>().To<DoorsService>().AsSingle();        
+            Container.Bind<IDoorsService>().To<DoorsService>().AsSingle();
+            Container.Bind<IUnitsSelectionService>().To<UnitsSelectionService>().AsSingle();
             Container.Bind<IRoomsVisibilityService>().To<RoomsVisibilityService>().AsSingle();        
         }
 

@@ -8,8 +8,8 @@ namespace Game_Code.Services
     public interface IRoomsVisibilityService
     {
         bool CanPlayerSeeRoom(Player player, Room room);
-        void HideAllRooms();
-        void ShowAllRooms();
+        void HideAllRooms(bool hideCorridors, bool hideButtons);
+        void ShowAllRooms(bool showCorridors, bool showButtons);
     }
 
     public class RoomsVisibilityService : IRoomsVisibilityService
@@ -39,21 +39,21 @@ namespace Game_Code.Services
             }
         }
 
-        public void HideAllRooms()
+        public void HideAllRooms(bool hideCorridors, bool hideButtons)
         {
             var rooms = _roomsService.GetAll();
             foreach (var room in rooms)
             {
-                room.DisableRoom();
+               room.HideRoom(hideCorridors, hideButtons);
             }
         }
 
-        public void ShowAllRooms()
+        public void ShowAllRooms(bool showCorridors, bool showButtons)
         {
             var rooms = _roomsService.GetAll();
             foreach (var room in rooms)
             {
-                room.EnableRoom();
+               room.DrawRoom(showCorridors, showButtons);
             }
         }
     }

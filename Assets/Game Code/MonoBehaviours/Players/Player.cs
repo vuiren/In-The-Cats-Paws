@@ -1,9 +1,7 @@
 ﻿using System;
-using Game_Code.Controllers;
 using Game_Code.Factories;
-using Game_Code.Managers;
 using Game_Code.MonoBehaviours.Data;
-using Game_Code.MonoBehaviours.Units;
+using Game_Code.Services;
 using Photon.Pun;
 using UnityEngine;
 using Zenject;
@@ -18,22 +16,23 @@ namespace Game_Code.MonoBehaviours.Players
         protected PhotonView PhotonView;
         protected Camera Camera;
         protected CameraController CameraController;
-        protected Unit ControlledUnit;
         protected UnitFactory UnitSpawnManager;
         protected StaticData StaticData;
         protected ILogger Logger;
+        protected IUnitsSelectionService SelectionService;
 
         public Action OnStepMade { get; set; }
 
         [Inject]
-        public void Construct(ILogger logger,
-            StaticData staticData, SceneData sceneData, UnitFactory unitFactory)
+        public void Construct(ILogger logger, StaticData staticData, SceneData sceneData, 
+            UnitFactory unitFactory, IUnitsSelectionService selectionService)
         {
             Logger = logger;
-            Logger.Log("Player has been initialized");
+            Logger.Log($"Player {gameObject.name} has been initialized");
             CameraController = sceneData.cameraController;
             UnitSpawnManager = unitFactory;
             StaticData = staticData;
+            SelectionService = selectionService;
         }
 
         protected virtual void Awake()

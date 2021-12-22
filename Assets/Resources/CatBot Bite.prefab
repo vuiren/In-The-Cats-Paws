@@ -154,7 +154,6 @@ GameObject:
   - component: {fileID: 6622362839293936237}
   - component: {fileID: 8378136837541787669}
   - component: {fileID: 1987044900762248420}
-  - component: {fileID: 4985471202388145078}
   m_Layer: 6
   m_Name: CatBot Bite
   m_TagString: Untagged
@@ -231,18 +230,3 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &4985471202388145078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3279957985927275829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47359b8f10fc05f41b3e33796b5234b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 2015403148403482180}
-  choosedColor: {r: 1, g: 0, b: 0, a: 1}
-  unChoosedColor: {r: 1, g: 1, b: 1, a: 1}

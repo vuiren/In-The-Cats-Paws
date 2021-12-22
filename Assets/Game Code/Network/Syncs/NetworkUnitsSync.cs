@@ -41,14 +41,14 @@ namespace Game_Code.Network.Syncs
         private void RegisterUnitRPC(string unitName)
         {
             _logger.Log($"Registering unit {unitName} over network");
-            var unitGO = GameObject.Find(unitName);
-            if (!unitGO)
+            var unitGo = GameObject.Find(unitName);
+            if (!unitGo)
             {
                 _logger.LogError($"{unitName} has not been found on the scene");
                 return;
             }
 			
-            var unit = unitGO.GetComponent<Unit>();
+            var unit = unitGo.GetComponent<Unit>();
             if (!unit)
             {
                 _logger.LogError($"{unit.gameObject.name} is not unit");

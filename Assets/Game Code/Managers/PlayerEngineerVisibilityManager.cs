@@ -36,7 +36,7 @@ namespace Game_Code.Managers
             
                 var engineerUnit = _unitsService.GetUnitsByUnitType(UnitType.Engineer).First();
 
-                var catUnits = new List<Unit>();
+                var catUnits = new List<IUnit>();
                 foreach (var catBotType in smartCatBotsTypes)
                 {
                     catUnits.AddRange(_unitsService.GetUnitsByUnitType(catBotType));
@@ -58,12 +58,12 @@ namespace Game_Code.Managers
             
                 foreach (var catUnit in catUnitsInDifferentRoom)
                 {
-                    catUnit.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                    catUnit.UnitGameObject().GetComponentInChildren<SpriteRenderer>().enabled = false;
                 }
             
                 foreach (var catUnit in catUnitsInSameRoom)
                 {
-                    catUnit.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
+                    catUnit.UnitGameObject().GetComponentInChildren<SpriteRenderer>().enabled = true;
                 }
             }
             catch (Exception e)

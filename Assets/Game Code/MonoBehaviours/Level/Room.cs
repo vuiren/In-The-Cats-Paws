@@ -13,35 +13,41 @@ namespace Game_Code.MonoBehaviours.Level
 		[SerializeField] private List<Corridor> corridors;
 		[SerializeField] private List<Button> buttons;
 		[SerializeField] private Transform pointsForUnitsParent;
-		
+
 		private PhotonView _photonView;
 		private readonly Queue<Vector3> _pointsForUnitsQueue = new();
-		private IUnitRoomService _unitRoomService;
 		private ILogger _logger;
 
-		public bool roomEnabled = false;
-
-		[Inject]
-		public void Construct(ILogger logger, IUnitRoomService unitRoomService)
+		public Vector3[] GetFreePoints()
 		{
-			_logger = logger;
-			_unitRoomService = unitRoomService;
-		}
-		
-		private void Awake()
-		{
-			_photonView = GetComponent<PhotonView>();
+			var result = new List<Vector3>();
 			for (var i = 0; i < pointsForUnitsParent.childCount; i++)
 			{
 				var child = pointsForUnitsParent.GetChild(i);
+				result.Add(child.position);
 				_pointsForUnitsQueue.Enqueue(child.position);
 			}
+
+			return result.ToArray();
+		}
+		
+		public bool roomEnabled = false;
+
+		[Inject]
+		public void Construct(ILogger logger)
+		{
+			_logger = logger;
+		}
+
+		private void Awake()
+		{
+			_photonView = GetComponent<PhotonView>();
 		}
 
 		public Vector3 GetPointForUnit()
 		{
 			if (_pointsForUnitsQueue.Count <= 0) return transform.position;
-			
+
 			_photonView.RPC("TakeLastPoint", RpcTarget.Others);
 			return _pointsForUnitsQueue.Dequeue();
 		}
@@ -69,55 +75,61 @@ namespace Game_Code.MonoBehaviours.Level
 			_pointsForUnitsQueue.Enqueue(point);
 		}
 
-		public void EnableRoom()
+		public void DrawRoom(bool drawCorridors, bool drawButtons)
 		{
 			Debug.Log($"Enabling Room {gameObject.name}");
-			foreach (var e in corridors)
+
+			if (drawCorridors)
 			{
-				e.Door.gameObject.SetActive(true);
+				foreach (var e in corridors)
+				{
+					e.Door.gameObject.SetActive(true);
+				}
 			}
 
-			foreach(var e in buttons)
+			if (drawButtons)
 			{
-				e.TogglePressButton(true);
-			}
-
-			var unitsInRoom = _unitRoomService.GetAllUnitsInRoom(this);
-
-			foreach(var e in unitsInRoom)
-			{
-				e.gameObject.SetActive(true);
+				foreach (var e in buttons)
+				{
+					e.TogglePressButton(true);
+				}
 			}
 
 			roomEnabled = true;
 		}
 
-		public void DisableRoom()
+		public void HideRoom(bool hideCorridors, bool hideButtons)
 		{
 			_logger.Log($"Disabling Room {gameObject.name}");
 
-			foreach (var e in corridors)
+			if (hideCorridors)
 			{
-				e.Door.gameObject.SetActive(false);
+				foreach (var e in corridors)
+				{
+					e.Door.gameObject.SetActive(false);
+				}
 			}
 
-			foreach (var e in buttons)
+			if (hideButtons)
 			{
-				e.TogglePressButton(false);
+				foreach (var e in buttons)
+				{
+					e.TogglePressButton(false);
+				}
 			}
 
 			roomEnabled = false;
 		}
 
-		public Room[] GetAvailableRooms()
+		public IEnumerable<Room> GetAvailableRooms()
 		{
 			var result = new List<Room>();
 			foreach (var corridor in corridors.Where(corridor => !corridor.Door.Closed))
 			{
-				result.AddRange(corridor.ConnectedRooms.Where(x=>x!= this));
+				result.AddRange(corridor.ConnectedRooms.Where(x => x != this));
 			}
 
-			return result.ToArray();
+			return result;
 		}
 	}
 }

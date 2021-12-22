@@ -19,6 +19,7 @@ namespace Game_Code.MonoBehaviours.Data
 		public GameObject playerSmartCatPrefab;
 		public UnitPrefab engineerCharacterPrefab;
 		public List<UnitPrefab> smartCatBots;
+		public Color unitSelectedColor = Color.red, unitNormalColor = Color.white;
 		public int playersCount = 2;
 		public float unitMoveSpeed;
 	}

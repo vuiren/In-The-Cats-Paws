@@ -16,10 +16,10 @@ namespace Game_Code.Factories
             _networkUnitsSync = networkUnitsSync;
         }
 
-        public Unit CreateUnit(string prefabName, SpawnPoint spawnPoint)
+        public IUnit CreateUnit(string prefabName, SpawnPoint spawnPoint)
         {
-            var unit = _networkPrefabFactory.Create(prefabName, spawnPoint).GetComponent<Unit>();
-            _networkUnitsSync.RegisterUnit(unit.name);
+            var unit = _networkPrefabFactory.Create(prefabName, spawnPoint).GetComponent<IUnit>();
+            _networkUnitsSync.RegisterUnit(unit.UnitGameObject().name);
             return unit;
         }
     }

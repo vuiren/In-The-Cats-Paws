@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game_Code.MonoBehaviours.Data;
 using Game_Code.MonoBehaviours.Level;
 using Game_Code.MonoBehaviours.Units;
-using Game_Code.Network;
+using Game_Code.MonoBehaviours.Units.CatUnits;
 using Game_Code.Network.Syncs;
 using Game_Code.Services;
 using UnityEngine;
@@ -13,22 +14,17 @@ namespace Game_Code.MonoBehaviours.Players
 {
     public class PlayerSmartCat : Player
     {
-        [SerializeField] private List<Unit> units = new List<Unit>();
-
         private IEnumerable<SpawnPoint> _unitsSpawnPoints;
-        private INetworkTurnsSync _networkTurnsSync;
         private INetworkRoomsSync _networkRoomsSync;
         private IUnitRoomService _unitRoomService;
         private INetworkUnitsSync _networkUnitsSync;
         private IRoomsService _roomsService;
-
 
         [Inject]
         public void Construct(SceneData sceneData, INetworkTurnsSync networkTurnsSync,
             INetworkRoomsSync networkRoomsSync, INetworkUnitsSync networkUnitsSync, 
             IUnitRoomService unitRoomService, IRoomsService roomsService)
         {
-            _networkTurnsSync = networkTurnsSync;
             _networkRoomsSync = networkRoomsSync;
             _unitRoomService = unitRoomService;
             _networkUnitsSync = networkUnitsSync;
@@ -39,42 +35,48 @@ namespace Game_Code.MonoBehaviours.Players
 
         private void SelectUnit(Unit unit)
         {
+            var previousUnit = SelectionService.GetPlayerSelectedUnit(this);
+            if (previousUnit != null && (Unit) previousUnit != unit)
+            {
+                DeselectUnit(previousUnit);
+            }
+            
             Logger.Log($"Selecting unit: {unit.name}");
-            ControlledUnit = unit;
-            ControlledUnit.ChooseUnit();
-            CameraController.selectedUnit = ControlledUnit;
+            SelectionService.SelectUnit(unit, this);
+            CameraController.selectedUnit = unit.UnitGameObject();
+            Logger.Log($"Done selecting unit: {unit.name}");
         }
 
-        private void DeselectCurrentUnit()
+        private void DeselectUnit(IUnit unit)
         {
-            if (!ControlledUnit) return;
-            Logger.Log($"Deselecting unit: {ControlledUnit.name}");
-            ControlledUnit.UnchooseUnit();
+            Logger.Log($"Deselecting unit: {unit.UnitGameObject().name}");
+            SelectionService.DeselectUnit(unit, this);
             CameraController.selectedUnit = null;
-            ControlledUnit = null;
+            Logger.Log($"Done deselecting unit: {unit.UnitGameObject().name}");
         }
-
-        private Dictionary<UnitType, GameObject> BotListToDictionary(IEnumerable<UnitPrefab> smartCatBots)
-        {
-            return smartCatBots.ToDictionary(e => e.unitType, e => e.prefab);
-        }
-
+        
         protected override void SpawnControllableUnits()
         {
-            var bots = BotListToDictionary(StaticData.smartCatBots);
+            var bots = StaticData.smartCatBots
+                .ToDictionary(e => e.unitType, e => e.prefab);
+            
             foreach (var spawnPoint in _unitsSpawnPoints)
             {
                 if (!bots.ContainsKey(spawnPoint.SpawnUnitType)) continue;
                 var unit = UnitSpawnManager.CreateUnit(bots[spawnPoint.SpawnUnitType].name, spawnPoint);
 
-                var unitTransform = unit.transform;
+                var unitTransform = unit.UnitGameObject().transform;
                 unitTransform.position = spawnPoint.SpawnPointTransform.position;
                 unitTransform.parent = transform.root;
 
                var roomId= _roomsService.GetRoomId(spawnPoint.SpawnRoom);
-                _networkRoomsSync.RegisterUnitToRoom(unit.gameObject.name, roomId);
-                //spawnPoint.SpawnRoom.EnableRoom();
-                units.Add(unit);
+
+               if (unit.UnitType() == UnitType.CatBotButtonPusher)
+               {
+                   spawnPoint.SpawnRoom.DrawRoom(true, true);
+               }
+               
+                _networkRoomsSync.RegisterUnitToRoom(unit.UnitGameObject().name, roomId);
             }
 
             _networkUnitsSync.RefreshUnitsModel();
@@ -92,41 +94,80 @@ namespace Game_Code.MonoBehaviours.Players
                 Logger.Log($"Found room: {room.name}");
             }
 
+
             if (unit)
             {
                 Logger.Log($"Found unit: {unit.name}");
-            }
-
-            if (unit)
-            {
-                DeselectCurrentUnit();
                 SelectUnit(unit);
             }
 
-            if (ControlledUnit && !room && !unit)
+            var selectedUnit = SelectionService.GetPlayerSelectedUnit(this);
+
+            if (selectedUnit != null && !room && !unit)
             {
-                DeselectCurrentUnit();
+                DeselectUnit(selectedUnit);
             }
 
-            if (!ControlledUnit || !room || unit) return;
+            if (selectedUnit == null || !room || unit) return;
             
-            if(!_unitRoomService.CanUnitGoToRoom(ControlledUnit, room))
+            if(!_unitRoomService.CanUnitGoToRoom(selectedUnit, room))
                 return;
             
-            Logger.Log($"Setting room for unit: {ControlledUnit.name}");
+            Logger.Log($"Setting room for unit: {selectedUnit.UnitGameObject().name}");
 
-            var unitRoom = _unitRoomService.FindUnitRoom(ControlledUnit);
+            var unitRoom = _unitRoomService.FindUnitRoom(selectedUnit);
             var roomId= _roomsService.GetRoomId(room);
             var unitRoomId= _roomsService.GetRoomId(unitRoom);
             
             if(roomId == unitRoomId) return;
 
-            _networkRoomsSync.RemoveUnitFromRoom(ControlledUnit.gameObject.name, unitRoomId);
-            _networkRoomsSync.RegisterUnitToRoom(ControlledUnit.gameObject.name, roomId);
+            var unitType = selectedUnit.UnitType();
 
-            ControlledUnit.RefreshTargetPos();
-            OnStepMade?.Invoke();
+            switch (unitType)
+            {
+                case UnitType.Engineer:
+                    break;
+                case UnitType.CatBotBomb:
+                    if (selectedUnit is ICatBomb catBomb && catBomb.GetCatBombState() == CatBombState.NotExploding)
+                    {
+                        UnitGoToRoom(room);
+                        OnStepMade?.Invoke();
+                    }
+                    break;
+                case UnitType.CatBotButtonPusher:
+                    unitRoom.HideRoom(false,true);
+                    room.DrawRoom(true,true);
+                    UnitGoToRoom(room);
+                    OnStepMade?.Invoke();
+                    break;
+                case UnitType.CatBotBiter:
+                    UnitGoToRoom(room);
+                    OnStepMade?.Invoke();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
+
+
+        }
+
+        private void UnitGoToRoom(Room room)
+        {
+            var selectedUnit = SelectionService.GetPlayerSelectedUnit(this);
+            
+            if(selectedUnit == null) return;
+            
+            var unitRoom = _unitRoomService.FindUnitRoom(selectedUnit);
+            var roomId= _roomsService.GetRoomId(room);
+            var unitRoomId= _roomsService.GetRoomId(unitRoom);
+            
+            _networkRoomsSync.RemoveUnitFromRoom(selectedUnit.UnitGameObject().name, unitRoomId);
+            _networkRoomsSync.RegisterUnitToRoom(selectedUnit.UnitGameObject().name, roomId);
+
+            unitRoom.FreePointRPC(selectedUnit.UnitGameObject().transform.position);
+            var pointForUnit = room.GetPointForUnit();
+            selectedUnit.SetTargetPointForUnit(pointForUnit);
         }
     }
 }

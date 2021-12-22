@@ -6,6 +6,7 @@ using Game_Code.MonoBehaviours.Level;
 using Game_Code.MonoBehaviours.Players;
 using Game_Code.MonoBehaviours.Units;
 using Game_Code.Services;
+using QFSW.QC;
 using UnityEngine;
 using Zenject;
 
@@ -16,9 +17,9 @@ namespace Game_Code.MonoBehaviours.DebugViewer
     {
         public bool enabled;
         public Room room;
-        public List<Unit> units;
+        public List<IUnit> units;
 
-        public RoomViewer(bool enabled, Room room, List<Unit> units)
+        public RoomViewer(bool enabled, Room room, List<IUnit> units)
         {
             this.enabled = enabled;
             this.room = room;
@@ -35,7 +36,7 @@ namespace Game_Code.MonoBehaviours.DebugViewer
     {
         [SerializeField] private bool refresh;
 
-        [SerializeField] private Unit[] units;
+        [SerializeField] private IUnit[] units;
         [SerializeField] private Room[] rooms;
         [SerializeField] private Player[] players;
         [SerializeField] private List<RoomViewer> unitRoomViewers;
@@ -62,7 +63,8 @@ namespace Game_Code.MonoBehaviours.DebugViewer
             Refresh();
             refresh = false;
         }
-
+        
+        [Command("view.refresh")]
         private void Refresh()
         {
             unitRoomViewers = new List<RoomViewer>();

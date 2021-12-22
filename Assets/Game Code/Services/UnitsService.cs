@@ -7,15 +7,15 @@ namespace Game_Code.Services
 {
     public interface IUnitsService
     {
-        Unit[] GetAll();
-        void RegisterUnit(Unit unit, UnitType unitType);
-        Unit GetUnitByName(string name);
-        IEnumerable<Unit> GetUnitsByUnitType(UnitType unitType);
+        IUnit[] GetAll();
+        void RegisterUnit(IUnit unit, UnitType unitType);
+        IUnit GetUnitByName(string name);
+        IEnumerable<IUnit> GetUnitsByUnitType(UnitType unitType);
     }
     
     public class UnitsService: IUnitsService
     {
-        private readonly Dictionary<UnitType, List<Unit>> _units = new();
+        private readonly Dictionary<UnitType, List<IUnit>> _units = new();
         private readonly ILogger _logger;
 
         public UnitsService(ILogger logger)
@@ -23,38 +23,38 @@ namespace Game_Code.Services
             _logger = logger;
         }
 
-        public Unit[] GetAll()
+        public IUnit[] GetAll()
         {
             return _units.SelectMany(x => x.Value).ToArray();
         }
 
-        public void RegisterUnit(Unit unit, UnitType unitType)
+        public void RegisterUnit(IUnit unit, UnitType unitType)
         {
-            _logger.Log($"Registering unit {unit.name}");
+            _logger.Log($"Registering unit {unit.UnitGameObject()}");
             
             if (_units.ContainsKey(unitType))
             {
-                if (_units[unitType].All(x => x.gameObject.name != unit.name))
+                if (_units[unitType].All(x => x.UnitGameObject().name != unit.UnitGameObject().name))
                 {
                     _units[unitType].Add(unit);
                 }
                 else
                 {
-                    _logger.LogWarning($"Unit {unit.name} already registered");
+                    _logger.LogWarning($"Unit {unit.UnitGameObject().name} already registered");
                 }
             }
             else
             {
-                _units[unitType] = new List<Unit>() {unit};
+                _units[unitType] = new List<IUnit>() {unit};
             }
         }
 
-        public Unit GetUnitByName(string name)
+        public IUnit GetUnitByName(string name)
         {
             _logger.Log($"Searching for unit with name {name}");
             
             var possiblePairs = 
-                _units.Where(valuePair => valuePair.Value.Any(unit => unit.gameObject.name == name));
+                _units.Where(valuePair => valuePair.Value.Any(unit => unit.UnitGameObject().name == name));
 
             var possibleUnits = possiblePairs
                 .Select(x => x.Value)
@@ -74,7 +74,7 @@ namespace Game_Code.Services
             }
         }
 
-        public IEnumerable<Unit> GetUnitsByUnitType(UnitType unitType)
+        public IEnumerable<IUnit> GetUnitsByUnitType(UnitType unitType)
         {
             _logger.Log($"Getting units of type {unitType}");
             

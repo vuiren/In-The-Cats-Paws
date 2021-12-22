@@ -8,17 +8,17 @@ namespace Game_Code.Services
 {
     public interface IUnitRoomService
     {
-        List<Unit> GetAllUnitsInRoom(int roomId);
-        List<Unit> GetAllUnitsInRoom(Room room);
-        Room FindUnitRoom(Unit unit);
+        List<IUnit> GetAllUnitsInRoom(int roomId);
+        List<IUnit> GetAllUnitsInRoom(Room room);
+        Room FindUnitRoom(IUnit unit);
         bool TryToAddUnitToRoom(string unitName, int roomId);
         void RemoveUnitFromRoom(string unitName, int roomId);
-        bool CanUnitGoToRoom(Unit unit, Room targetRoom);
+        bool CanUnitGoToRoom(IUnit unit, Room targetRoom);
     }
 
     public class UnitRoomService : IUnitRoomService
     {
-        private readonly Dictionary<int, List<Unit>> _unitsInRoom = new(); // int - room id
+        private readonly Dictionary<int, List<IUnit>> _unitsInRoom = new(); // int - room id
 
         private readonly IRoomsService _roomsService;
         private readonly IUnitsService _unitsService;
@@ -31,18 +31,18 @@ namespace Game_Code.Services
             _logger = logger;
         }
 
-        public List<Unit> GetAllUnitsInRoom(int roomId)
+        public List<IUnit> GetAllUnitsInRoom(int roomId)
         {
-            return _unitsInRoom.ContainsKey(roomId) ? _unitsInRoom[roomId] : new List<Unit>();
+            return _unitsInRoom.ContainsKey(roomId) ? _unitsInRoom[roomId] : new List<IUnit>();
         }
 
-        public List<Unit> GetAllUnitsInRoom(Room room)
+        public List<IUnit> GetAllUnitsInRoom(Room room)
         {
             var roomId = _roomsService.GetRoomId(room);
-            return _unitsInRoom.ContainsKey(roomId) ? _unitsInRoom[roomId] : new List<Unit>();
+            return _unitsInRoom.ContainsKey(roomId) ? _unitsInRoom[roomId] : new List<IUnit>();
         }
 
-        public Room FindUnitRoom(Unit unit)
+        public Room FindUnitRoom(IUnit unit)
         {
             var possibleRooms = _unitsInRoom.Where(x => x.Value.Contains(unit));
             var room = _roomsService.GetRoomById(possibleRooms.First().Key);
@@ -54,7 +54,6 @@ namespace Game_Code.Services
             try
             {
                 var unit = _unitsService.GetUnitByName(unitName);
-                var room = _roomsService.GetRoomById(roomId);
 
                 if (_unitsInRoom.ContainsKey(roomId))
                 {
@@ -62,7 +61,7 @@ namespace Game_Code.Services
                 }
                 else
                 {
-                    _unitsInRoom[roomId] = new List<Unit>() {unit};
+                    _unitsInRoom[roomId] = new List<IUnit>() {unit};
                 }
 
                 return true;
@@ -79,7 +78,6 @@ namespace Game_Code.Services
             try
             {
                 var unit = _unitsService.GetUnitByName(unitName);
-                var room = _roomsService.GetRoomById(roomId);
 
                 if (_unitsInRoom.ContainsKey(roomId))
                 {
@@ -95,8 +93,8 @@ namespace Game_Code.Services
                 _logger.LogError($"Couldn't remove unit {unitName} from room with id {roomId}");
             }
         }
-
-        public bool CanUnitGoToRoom(Unit unit, Room targetRoom)
+        
+        public bool CanUnitGoToRoom(IUnit unit, Room targetRoom)
         {
             var unitRoom = FindUnitRoom(unit);
             var availableRooms = unitRoom.GetAvailableRooms();

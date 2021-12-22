@@ -12,7 +12,7 @@ namespace Game_Code.MonoBehaviours
 
 		private Camera _camera;
 
-		public Unit selectedUnit;
+		public GameObject selectedUnit;
 		public Room selectedRoom;
 		public bool zoom;
 
