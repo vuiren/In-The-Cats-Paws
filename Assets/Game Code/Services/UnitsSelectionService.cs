@@ -16,7 +16,7 @@ namespace Game_Code.Services
     
     public class UnitsSelectionService: IUnitsSelectionService
     {
-        private readonly Dictionary<Player, IUnit> _selectedUnit = new Dictionary<Player, IUnit>();
+        private readonly Dictionary<Player, IUnit> _selectedUnit = new();
         private Action<IUnit> _onUnitSelected, _onUnitDeselected;
         private readonly ILogger _logger;
         
@@ -39,14 +39,14 @@ namespace Game_Code.Services
         {
             _selectedUnit[player] = unit;
             _onUnitSelected?.Invoke(unit);
-            _logger.Log($"Unit {unit.UnitGameObject().name} has been selected by {player.name}");
+            _logger.Log(this,$"Unit {unit.UnitGameObject().name} has been selected by {player.name}");
         }
 
         public void DeselectUnit(IUnit unit, Player player)
         {
             _selectedUnit[player] = null;
             _onUnitDeselected?.Invoke(unit);
-            _logger.Log($"Unit {unit.UnitGameObject().name} has been deselected");
+            _logger.Log(this,$"Unit {unit.UnitGameObject().name} has been deselected");
         }
 
         public IUnit GetPlayerSelectedUnit(Player player)

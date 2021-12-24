@@ -13,7 +13,7 @@ namespace Game_Code.MonoBehaviours
         [SerializeField] Text playerStatusText, waitingText;
         [SerializeField] private byte maxPlayersPerRoom = 2;
 
-        private const string gameVersion = "1";
+        private const string GameVersion = "1";
 
         private void Awake()
         {
@@ -40,7 +40,7 @@ namespace Game_Code.MonoBehaviours
         {
             if (PhotonNetwork.IsConnected) return;
             PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = gameVersion;
+            PhotonNetwork.GameVersion = GameVersion;
         }
 
         public void JoinRoom()

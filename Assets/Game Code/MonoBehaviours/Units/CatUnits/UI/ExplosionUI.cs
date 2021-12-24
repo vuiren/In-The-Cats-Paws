@@ -1,6 +1,6 @@
 ﻿using System;
+using Game_Code.Controllers.CatBotControllers;
 using Game_Code.Services;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,18 +9,30 @@ namespace Game_Code.MonoBehaviours.Units.CatUnits.UI
     public class ExplosionUI: MonoBehaviour
     {
         [SerializeField] private Button addTurnButton, removeTurnButton, explodeButton;
-        [SerializeField] private TextMeshProUGUI turnsText;
-
+        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private Sprite[] turnSprites;
+        
         private ICatBomb _catBomb;
         private ITurnService _turnService;
         private int _turns;
+        private ICatBotExplosionController _explosionController;
         
-        public void Construct(ITurnService turnService, ICatBomb catBomb)
+        public void Construct(ITurnService turnService, ICatBomb catBomb, ICatBotExplosionController explosionController)
         {
+            _explosionController = explosionController;
             _turnService = turnService;
             _catBomb = catBomb;
-            _turnService.OnEngineerTurn(UpdateTurns);
+            _explosionController.OnExplodingStart(Sync);
             _turnService.OnSmartCatTurn(UpdateTurns);
+        }
+
+        private void Sync(CatBomb obj)
+        {
+            if (obj.gameObject == gameObject)
+            {
+                _turns = _explosionController.TurnsUntilExplosion();
+                UpdateSprite(_turns);
+            }
         }
 
         private void UpdateTurns()
@@ -30,10 +42,10 @@ namespace Game_Code.MonoBehaviours.Units.CatUnits.UI
                 case CatBombState.NotExploding:
                     break;
                 case CatBombState.Exploding:
-                    RemoveTurn();
+                    Reduce();
                     break;
                 case CatBombState.Reviving:
-                    RemoveTurn();
+                    Reduce();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -43,21 +55,37 @@ namespace Game_Code.MonoBehaviours.Units.CatUnits.UI
 
         private void Awake()
         {
-            addTurnButton.onClick.AddListener(AddTurn);
-            removeTurnButton.onClick.AddListener(RemoveTurn);
+            addTurnButton.onClick.AddListener(Add);
+            removeTurnButton.onClick.AddListener(Reduce);
             explodeButton.onClick.AddListener(Explode);
         }
 
-        private void AddTurn()
+        private void Add()
         {
             _turns++;
-            turnsText.text = _turns.ToString();
+
+            if (_turns >= turnSprites.Length)
+            {
+                _turns = 0;
+            }
+            
+            UpdateSprite(_turns);
         }
 
-        private void RemoveTurn()
+        private void Reduce()
         {
             _turns--;
-            turnsText.text = _turns.ToString();
+
+            if (_turns < 0)
+            {
+                _turns = turnSprites.Length - 1;
+            }
+            UpdateSprite(_turns);
+        }
+        
+        private void UpdateSprite(int turnsCount)
+        {
+            spriteRenderer.sprite = turnSprites[turnsCount];
         }
 
         private void Explode()

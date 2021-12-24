@@ -35,8 +35,10 @@ namespace Game_Code.Network.Syncs
         }
         
         [PunRPC]
+        // ReSharper disable once UnusedMember.Local
         private void SearchForPlayersRPC()
         {
+            _logger.Log(this, "Searching for players");
             var playerEngineer = FindObjectOfType<PlayerEngineer>();
             var playerSmartCat = FindObjectOfType<PlayerSmartCat>();
 
@@ -52,7 +54,7 @@ namespace Game_Code.Network.Syncs
 
             if (playerEngineer)
             {
-                _logger.Log("Player Engineer has been set");
+                _logger.Log(this,"Player Engineer has been set");
             }
             else
             {
@@ -60,7 +62,7 @@ namespace Game_Code.Network.Syncs
             }
 
             if (!playerEngineer || !playerSmartCat) return;
-            _logger.Log($"All Players has been set");
+            _logger.Log(this,$"All Players has been set");
 
             var transformParent = transform;
             playerEngineer.transform.parent = transformParent;
@@ -68,12 +70,15 @@ namespace Game_Code.Network.Syncs
 
             playerEngineer.OnStepMade += _turnsSync.EndCurrentTurn;
             playerSmartCat.OnStepMade += _turnsSync.EndCurrentTurn;
+            
+            _logger.Log(this, "Done searching for players");
         }
         
         [PunRPC]
+        // ReSharper disable once UnusedMember.Local
         private void RegisterPlayerRPC(string playerName)
         {
-            _logger.Log($"Registering player {playerName} over network");
+            _logger.Log(this,$"Registering player {playerName} over network");
             var playerGO = GameObject.Find(playerName);
             if (!playerGO)
             {
@@ -89,6 +94,7 @@ namespace Game_Code.Network.Syncs
             }
 			
             _playersService.RegisterPlayer(player);
+            _logger.Log(this,$"Done registering player {playerName} over network");
         }
 
         public void RegisterPlayer(Player player)

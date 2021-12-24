@@ -30,7 +30,7 @@ namespace Game_Code.Services
 
         public void SetGameStatus(GameStatus gameStatus)
         {
-            _logger.Log($"Setting game status to {gameStatus}");
+            _logger.Log(this,$"Setting game status to {gameStatus}");
             
             _gameStatus = gameStatus;
 

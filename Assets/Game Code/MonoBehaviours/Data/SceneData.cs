@@ -10,6 +10,7 @@ namespace Game_Code.MonoBehaviours.Data
 		public CameraController cameraController;
 		public GameManager gameManager;
 		public SpawnPoint[] spawnPoints;
+		public RepairPoint[] repairPoints;
 		public Database database;
 
 		#region Network
@@ -18,6 +19,10 @@ namespace Game_Code.MonoBehaviours.Data
 		public NetworkRoomsSync networkRoomsSync;
 		public NetworkUnitsSync networkUnitsSync;
 		public NetworkDoorsSync networkDoorsSync;
+		public NetworkFreeRoomPointsSync networkFreeRoomPointsSync;
+		public NetworkCatBombExplosionSync networkCatBombExplosionSync;
+		public NetworkGameSync networkGameSync;
+		public NetworkRepairSync repairSync;
 		#endregion
 
 	}

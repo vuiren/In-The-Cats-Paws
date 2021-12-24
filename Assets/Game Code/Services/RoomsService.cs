@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Game_Code.MonoBehaviours.Data;
 using Game_Code.MonoBehaviours.Level;
-using Game_Code.MonoBehaviours.Units;
 
 namespace Game_Code.Services
 {
@@ -32,12 +31,12 @@ namespace Game_Code.Services
 
         public Room GetRoomById(int id)
         {
-            _logger.Log($"Getting room with id {id}");
+            _logger.Log(this,$"Getting room with id {id}");
 
             if (_map.ContainsKey(id))
             {
                 var room = _map[id];
-                _logger.Log($"Found room {room.gameObject.name}");
+                _logger.Log(this,$"Found room {room.gameObject.name}");
                 return room;
             }
 

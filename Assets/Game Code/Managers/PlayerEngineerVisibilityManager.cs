@@ -30,7 +30,7 @@ namespace Game_Code.Managers
         {
             try
             {
-                _logger.Log("Refreshing visibility for player engineer");
+                _logger.Log(this, "Refreshing visibility for player engineer");
 
                 var smartCatBotsTypes = new[] {UnitType.CatBotBiter, UnitType.CatBotBomb, UnitType.CatBotButtonPusher};
             
@@ -65,6 +65,7 @@ namespace Game_Code.Managers
                 {
                     catUnit.UnitGameObject().GetComponentInChildren<SpriteRenderer>().enabled = true;
                 }
+                _logger.Log(this, "Done refreshing visibility for player engineer");
             }
             catch (Exception e)
             {

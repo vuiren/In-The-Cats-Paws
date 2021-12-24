@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game_Code.MonoBehaviours.Level;
@@ -8,14 +9,14 @@ namespace Game_Code.Services
 {
     public interface IRoomsPointsService
     {
-        Vector3 GetFreePointForRoom(Room room);
-        void AddFreePointToRoom(Vector3 point);
+        Vector3 GetFreePointFromRoom(Room room);
+        void AddFreePointToRoom(Room room, Vector3 point);
     }
     
     public class RoomsPointsService: IRoomsPointsService
     {
         private IRoomsService _roomsService;
-        private Dictionary<Room, Queue<Vector3>> _pointsInRooms;
+        private readonly Dictionary<Room, Queue<Vector3>> _pointsInRooms;
 
         public RoomsPointsService(IRoomsService roomsService)
         {
@@ -24,17 +25,19 @@ namespace Game_Code.Services
                 .ToDictionary(x => x, x => new Queue<Vector3>(x.GetFreePoints()));
         }
 
-        public Vector3 GetFreePointForRoom(Room room)
+        public Vector3 GetFreePointFromRoom(Room room)
         {
-            if (_pointsInRooms.ContainsKey(room))
+            if (_pointsInRooms.ContainsKey(room) && _pointsInRooms[room].Count > 0)
             {
-                return 
+                return _pointsInRooms[room].Dequeue();
             }
+
+            throw new Exception($"No free points in room {room.name}");
         }
 
-        public void AddFreePointToRoom(Vector3 point)
+        public void AddFreePointToRoom(Room room, Vector3 point)
         {
-            throw new System.NotImplementedException();
+            _pointsInRooms[room].Enqueue(point);
         }
     }
 }

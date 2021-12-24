@@ -30,12 +30,13 @@ namespace Game_Code.Services
 
         public void RegisterUnit(IUnit unit, UnitType unitType)
         {
-            _logger.Log($"Registering unit {unit.UnitGameObject()}");
+            _logger.Log(this,$"Registering unit {unit.UnitGameObject()}");
             
             if (_units.ContainsKey(unitType))
             {
                 if (_units[unitType].All(x => x.UnitGameObject().name != unit.UnitGameObject().name))
                 {
+                    _logger.Log(this,$"Done registering unit {unit.UnitGameObject()}");
                     _units[unitType].Add(unit);
                 }
                 else
@@ -51,7 +52,7 @@ namespace Game_Code.Services
 
         public IUnit GetUnitByName(string name)
         {
-            _logger.Log($"Searching for unit with name {name}");
+            _logger.Log(this,$"Searching for unit with name {name}");
             
             var possiblePairs = 
                 _units.Where(valuePair => valuePair.Value.Any(unit => unit.UnitGameObject().name == name));
@@ -67,6 +68,7 @@ namespace Game_Code.Services
                     _logger.LogWarning($"Found several units with name {name}");
                     return possibleUnits[0];
                 case 1:
+                    _logger.Log(this,$"Found unit with name {name}");
                     return possibleUnits.FirstOrDefault();
                 default:
                  //   _logger.LogError($"No unit with name {name} has been found");
@@ -76,15 +78,12 @@ namespace Game_Code.Services
 
         public IEnumerable<IUnit> GetUnitsByUnitType(UnitType unitType)
         {
-            _logger.Log($"Getting units of type {unitType}");
-            
-            if (_units.ContainsKey(unitType))
-            {
-                return _units[unitType].ToArray();
-            }
+            _logger.Log(this,$"Getting units of type {unitType}");
 
-            // _logger.LogWarning($"No units type of {unitType} found");
-            throw new Exception($"No units type of {unitType} found");
+            if (!_units.ContainsKey(unitType)) throw new Exception($"No units type of {unitType} found");
+            _logger.Log(this,$"Found unit of type {unitType}");
+            return _units[unitType].ToArray();
+
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Game_Code.MonoBehaviours.UI
 	public class GameCovering : MonoBehaviour
 	{
 		[SerializeField] private GameObject cover;
-		private IGameStatusService _gameStatusService;
 		private CurrentPlayerManager _currentPlayerManager;
 		private ITurnService _turnService;
 		
@@ -18,7 +17,6 @@ namespace Game_Code.MonoBehaviours.UI
 			CurrentPlayerManager currentPlayerManager, ITurnService turnService)
 		{
 			_currentPlayerManager = currentPlayerManager;
-			_gameStatusService = gameStatusService;
 			_turnService = turnService;
 
 			SubscribeCovering();

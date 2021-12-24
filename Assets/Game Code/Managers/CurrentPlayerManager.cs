@@ -8,7 +8,7 @@ namespace Game_Code.Managers
 
         public CurrentPlayerManager(ILogger logger)
         {
-            logger.Log($"Current player is {CurrentPlayerType}");
+            logger.Log(this,$"Current player is {CurrentPlayerType}");
         }
     }
 

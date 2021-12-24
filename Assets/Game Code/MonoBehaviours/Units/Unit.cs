@@ -1,4 +1,3 @@
-using System;
 using Game_Code.MonoBehaviours.Data;
 using Game_Code.Network.Syncs;
 using Game_Code.Services;
@@ -9,8 +8,6 @@ namespace Game_Code.MonoBehaviours.Units
 {
 	public interface IUnit
 	{
-		/*void SelectUnit();
-		void DeselectUnit();*/
 		GameObject UnitGameObject();
 		UnitType UnitType();
 		void SetTargetPointForUnit(Vector3 point);
@@ -28,9 +25,6 @@ namespace Game_Code.MonoBehaviours.Units
 		protected ILogger Logger;
 		protected ITurnService TurnService;
 		protected INetworkTurnsSync TurnsSync;
-		
-		/*public Action OnUnitSelect { get; set; }
-		public Action OnUnitDeselect { get; set; }*/
 
 		[Inject]
 		public virtual void Construct(ILogger logger, StaticData staticData, IRoomsService roomsService, 
@@ -42,7 +36,8 @@ namespace Game_Code.MonoBehaviours.Units
 			TurnService = turnService;
 			Logger = logger;
 			TurnsSync = networkTurnsSync;
-			logger.Log($"Created Unit {gameObject.name}");
+			
+			logger.Log(this,$"Created Unit {gameObject.name}");
 		}
 
 		protected virtual void Update()
@@ -57,8 +52,6 @@ namespace Game_Code.MonoBehaviours.Units
 				_targetPos, _moveSpeed * Time.deltaTime);
 		}
 		
-		/*public virtual void SelectUnit() => OnUnitSelect?.Invoke();
-		public virtual void DeselectUnit() => OnUnitDeselect?.Invoke();*/
 		public GameObject UnitGameObject() => gameObject;
 		public UnitType UnitType() => unitType;
 

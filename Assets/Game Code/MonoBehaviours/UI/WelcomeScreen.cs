@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using DG.Tweening;
 using Game_Code.Managers;
 using Game_Code.MonoBehaviours.Players;
@@ -20,7 +19,7 @@ namespace Game_Code.MonoBehaviours.UI
 		private ILogger _logger;
 		
 		[Inject]
-		public void Construct(ILogger logger, IPlayersService playersService, 
+		public void Construct(ILogger logger, IPlayersService playersService,
 			IGameStatusService gameStatusService, CurrentPlayerManager currentPlayerManager)
 		{
 			_playersService = playersService;
@@ -87,12 +86,12 @@ namespace Game_Code.MonoBehaviours.UI
 			switch (obj)
 			{
 				case PlayerEngineer:
-					_logger.Log("Showing image of engineer");
+					_logger.Log(this,"Showing image of engineer");
 					engineerImage.SetActive(true);
 					engineerImage.transform.DOMove(engineerImagePosition.position, 1f);
 					break;
 				case PlayerSmartCat:
-					_logger.Log("Showing image of smart cat");
+					_logger.Log(this,"Showing image of smart cat");
 					catImage.SetActive(true);
 					catImage.transform.DOMove(catImagePosition.position, 1f);
 					break;

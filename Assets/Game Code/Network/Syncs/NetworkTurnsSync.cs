@@ -1,6 +1,7 @@
 ﻿using System;
 using Game_Code.Services;
 using Photon.Pun;
+using QFSW.QC;
 using UnityEngine;
 using Zenject;
 
@@ -29,22 +30,25 @@ namespace Game_Code.Network.Syncs
 		[PunRPC]
 		private void EndCurrentTurnRPC()
 		{
+			_logger.Log(this, "Ending current step");
 			_turnService.EndCurrentTurn();
 			var turn = _turnService.CurrentTurn();
 
 			switch (turn)
 			{
 				case Turn.Engineer:
-					_logger.Log("Now it's an engineer step");
+					_logger.Log(this,"Now it's an engineer step");
 					break;
 				case Turn.SmartCat:
-					_logger.Log("Now it's a smart cat's step");
+					_logger.Log(this,"Now it's a smart cat's step");
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+			_logger.Log(this, "Done ending current step");
 		}
 
+		[Command("network.endturn")]
 		public void EndCurrentTurn()
 		{
 			_photonView.RPC("EndCurrentTurnRPC", RpcTarget.All);

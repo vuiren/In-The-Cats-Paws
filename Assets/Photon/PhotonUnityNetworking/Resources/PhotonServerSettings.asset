@@ -55,6 +55,14 @@ MonoBehaviour:
   - RemoveUnitFromRoomPRC
   - RegisterUnitRPC
   - RegisterPlayerRPC
+  - AddFreePointToRoomRPC
+  - GetFreePointFromRoomRPC
+  - StartExplosion
+  - StartExplosionRPC
+  - ExplodeRPC
+  - CatWinRPC
+  - EngineerWinRPC
+  - RepairPointRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

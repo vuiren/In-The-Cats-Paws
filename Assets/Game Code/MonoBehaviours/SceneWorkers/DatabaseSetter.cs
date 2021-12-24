@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Game_Code.MonoBehaviours.Data.Databases;
 using Game_Code.MonoBehaviours.Level;
@@ -10,7 +9,7 @@ namespace Game_Code.MonoBehaviours.SceneWorkers
     [ExecuteInEditMode]
     public class DatabaseSetter:MonoBehaviour
     {
-        [SerializeField] private Database _database;
+        [SerializeField] private Database database;
         [SerializeField] private bool setDoors, setRooms;
 
         private void Update()
@@ -39,7 +38,7 @@ namespace Game_Code.MonoBehaviours.SceneWorkers
                 result.Add(index, door);
             }
 
-            _database.SetDoors(result);
+            database.SetDoors(result);
             Debug.Log($"{doors.Count()} doors was registered to database");
         }
         
@@ -54,7 +53,7 @@ namespace Game_Code.MonoBehaviours.SceneWorkers
                 result.Add(index, door);
             }
 
-            _database.SetRooms(result);
+            database.SetRooms(result);
             Debug.Log($"{rooms.Count()} rooms was registered to database");
 
         }

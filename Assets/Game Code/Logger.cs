@@ -4,7 +4,7 @@ namespace Game_Code
 {
     public interface ILogger
     {
-        void Log(string message);
+        void Log(object caller, string message);
 
         void LogWarning(string message);
         void LogError(string message);
@@ -15,9 +15,10 @@ namespace Game_Code
     {
         private int _logsCount = 0;
         
-        public void Log(string message)
+        public void Log(object caller, string message)
         {
-            Debug.Log(message);
+            var callerInfo = string.Format("[{0}]", caller.GetType().Name);
+            Debug.Log(callerInfo+" " + message);
             _logsCount++;
         }
 

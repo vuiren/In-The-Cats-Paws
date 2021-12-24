@@ -37,7 +37,7 @@ namespace Game_Code.Services
 
         public void RegisterPlayer(Player player)
         {
-            _logger.Log($"Registering player {player.name}");   
+            _logger.Log(this,$"Registering player {player.name}");   
             if(!_playerEngineer && player is PlayerEngineer engineer)
             {
                 _playerEngineer = engineer;
@@ -50,7 +50,7 @@ namespace Game_Code.Services
                 _initializedPlayersCount++;
             }
             
-            _logger.Log($"Player {player.name} has been registered");
+            _logger.Log(this,$"Player {player.name} has been registered");
             _onPlayerAdded?.Invoke(player);
 
             if(_initializedPlayersCount >= _startPlayersCount)

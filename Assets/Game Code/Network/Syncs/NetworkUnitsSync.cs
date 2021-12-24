@@ -40,7 +40,7 @@ namespace Game_Code.Network.Syncs
         [PunRPC]
         private void RegisterUnitRPC(string unitName)
         {
-            _logger.Log($"Registering unit {unitName} over network");
+            _logger.Log(this,$"Registering unit {unitName} over network");
             var unitGo = GameObject.Find(unitName);
             if (!unitGo)
             {
@@ -56,19 +56,21 @@ namespace Game_Code.Network.Syncs
             }
 			
             _unitsService.RegisterUnit(unit, unit.unitType);
+            _logger.Log(this,$"Done registering unit {unitName} over network");
         }
         
         [PunRPC]
         private void RefreshUnitsModelRPC()
         {
-            _logger.Log("Refreshing units model");
+            _logger.Log(this,"Registering units on scene");
 
             var units = FindObjectsOfType<Unit>();
-            _logger.Log($"{units.Length} units has been found");
+            _logger.Log(this,$"{units.Length} units has been found");
             foreach (var unit in units)
             {
                 _unitsService.RegisterUnit(unit, unit.unitType);
             }
+            _logger.Log(this,"Done registering units on scene");
         }
     }
 }

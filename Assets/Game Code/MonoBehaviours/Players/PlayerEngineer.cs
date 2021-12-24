@@ -1,4 +1,3 @@
-using System.ComponentModel.Design;
 using System.Linq;
 using Game_Code.MonoBehaviours.Data;
 using Game_Code.MonoBehaviours.Level;
@@ -18,11 +17,12 @@ namespace Game_Code.MonoBehaviours.Players
         private IUnitRoomService _unitRoomService;
         private IRoomsService _roomsService;
         private IUnitsSelectionService _selectionService;
+        private INetworkFreeRoomPointsSync _roomsPointsService;
         
         [Inject]
         public void Construct(SceneData sceneData, INetworkRoomsSync networkRoomsSync, 
             INetworkUnitsSync networkUnitsSync, IUnitRoomService unitRoomService, IRoomsService roomsService,
-            IUnitsSelectionService selectionService)
+            IUnitsSelectionService selectionService, INetworkFreeRoomPointsSync roomsPointsService)
         {
             _unitRoomService = unitRoomService;
             _engineerSpawnPoint = sceneData.spawnPoints.Single(x => x.SpawnUnitType == UnitType.Engineer);
@@ -30,6 +30,7 @@ namespace Game_Code.MonoBehaviours.Players
             _networkUnitsSync = networkUnitsSync;
             _roomsService = roomsService;
             _selectionService = selectionService;
+            _roomsPointsService = roomsPointsService;
         }
 
         public override void MakeStep(Vector3 cursorPos)
@@ -53,9 +54,9 @@ namespace Game_Code.MonoBehaviours.Players
             
             _networkRoomsSync.RemoveUnitFromRoom(selectedUnit.UnitGameObject().name, unitRoomId);
             _networkRoomsSync.RegisterUnitToRoom(selectedUnit.UnitGameObject().name, roomId);
-            
-            unitRoom.FreePointRPC(selectedUnit.UnitGameObject().transform.position);
-            var pointForUnit = room.GetPointForUnit();
+
+            _roomsPointsService.AddFreePointToRoom(unitRoom, selectedUnit.UnitGameObject().transform.position);
+            var pointForUnit = _roomsPointsService.GetFreePointFromRoom(room);
             selectedUnit.SetTargetPointForUnit(pointForUnit);
 
             unitRoom.HideRoom(true,true);
@@ -75,10 +76,14 @@ namespace Game_Code.MonoBehaviours.Players
 
             var roomId = _roomsService.GetRoomId(spawnPoint.SpawnRoom);
             _networkRoomsSync.RegisterUnitToRoom(unit.UnitGameObject().name, roomId);
+            
+            var pointForUnit = _roomsPointsService.GetFreePointFromRoom(spawnPoint.SpawnRoom);
+            unit.SetTargetPointForUnit(pointForUnit);
+            
             _networkUnitsSync.RefreshUnitsModel();
             spawnPoint.SpawnRoom.DrawRoom(true,true);
 
-            Logger.Log($"{this.name} created the {unit.UnitGameObject().name} ");
+            Logger.Log(this,$"{this.name} created the {unit.UnitGameObject().name} ");
             _selectionService.SelectUnit(unit, this);
         }
 

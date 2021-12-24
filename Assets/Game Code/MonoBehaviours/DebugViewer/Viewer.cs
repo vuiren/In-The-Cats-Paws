@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ExitGames.Client.Photon.StructWrapping;
 using Game_Code.MonoBehaviours.Level;
 using Game_Code.MonoBehaviours.Players;
 using Game_Code.MonoBehaviours.Units;
@@ -17,18 +16,18 @@ namespace Game_Code.MonoBehaviours.DebugViewer
     {
         public bool enabled;
         public Room room;
-        public List<IUnit> units;
+        public List<IUnit> Units;
 
         public RoomViewer(bool enabled, Room room, List<IUnit> units)
         {
             this.enabled = enabled;
             this.room = room;
-            this.units = units;
+            this.Units = units;
         }
 
         public override string ToString()
         {
-            return room.gameObject.name + " Units Count: " + units.Count();
+            return room.gameObject.name + " Units Count: " + Units.Count();
         }
     }
 
@@ -36,7 +35,7 @@ namespace Game_Code.MonoBehaviours.DebugViewer
     {
         [SerializeField] private bool refresh;
 
-        [SerializeField] private IUnit[] units;
+        [SerializeField] private IUnit[] _units;
         [SerializeField] private Room[] rooms;
         [SerializeField] private Player[] players;
         [SerializeField] private List<RoomViewer> unitRoomViewers;
@@ -69,7 +68,7 @@ namespace Game_Code.MonoBehaviours.DebugViewer
         {
             unitRoomViewers = new List<RoomViewer>();
 
-            units = _unitsService.GetAll();
+            _units = _unitsService.GetAll();
             rooms = _roomsService.GetAll();
             players = _playersService.GetAll();
 

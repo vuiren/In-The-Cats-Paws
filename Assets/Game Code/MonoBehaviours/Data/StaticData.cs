@@ -22,5 +22,6 @@ namespace Game_Code.MonoBehaviours.Data
 		public Color unitSelectedColor = Color.red, unitNormalColor = Color.white;
 		public int playersCount = 2;
 		public float unitMoveSpeed;
+		public Sprite[] catBombSprites;
 	}
 }

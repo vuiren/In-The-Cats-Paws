@@ -28,7 +28,7 @@ namespace Game_Code.MonoBehaviours.Players
             UnitFactory unitFactory, IUnitsSelectionService selectionService)
         {
             Logger = logger;
-            Logger.Log($"Player {gameObject.name} has been initialized");
+            Logger.Log(this,$"Player {gameObject.name} has been initialized");
             CameraController = sceneData.cameraController;
             UnitSpawnManager = unitFactory;
             StaticData = staticData;

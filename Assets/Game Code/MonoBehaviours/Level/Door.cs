@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Zenject;
 
@@ -27,24 +26,27 @@ namespace Game_Code.MonoBehaviours.Level
 
 		public void SwitchDoorState()
 		{
-			_logger.Log($"Switching Door {gameObject.name} State");
+			_logger.Log(this,$"Switching Door {gameObject.name} State");
 
 			if (Closed)
 				OpenTheDoor();
 			else
 				CloseTheDoor();
+			
+			_logger.Log(this,$"Done switching Door {gameObject.name} State");
+
 		}
 
 		private void OpenTheDoor()
 		{
-			_logger.Log($"Door {gameObject.name} has been opened");
+			_logger.Log(this,$"Door {gameObject.name} has been opened");
 			closed = false;
 			UpdateModels();
 		}
 
 		private void CloseTheDoor()
 		{
-			_logger.Log($"Door {gameObject.name} has been closed");
+			_logger.Log(this,$"Door {gameObject.name} has been closed");
 			closed = true;
 			UpdateModels();
 		}

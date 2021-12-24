@@ -16,7 +16,7 @@ namespace Game_Code.Network
             var gameObject = 
                 PhotonNetwork.Instantiate(prefabName, 
                     spawnPoint.SpawnPointTransform.position, new Quaternion());
-            _logger.Log($"Network Instantiated prefab {prefabName} at {spawnPoint.name}");
+            _logger.Log(this,$"Network Instantiated prefab {prefabName} at {spawnPoint.name}");
             
             _container.InjectGameObject(gameObject);
             return gameObject;
@@ -27,7 +27,7 @@ namespace Game_Code.Network
             var gameObject = 
                 PhotonNetwork.Instantiate(prefabName, 
                     new Vector3(), new Quaternion());
-            _logger.Log($"Network Instantiated prefab {prefabName}");
+            _logger.Log(this,$"Network Instantiated prefab {prefabName}");
             
             _container.InjectGameObject(gameObject);
             return gameObject;
