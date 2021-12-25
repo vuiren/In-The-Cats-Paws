@@ -1570,7 +1570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9f22b9b1b84798ab4cfb4f2aae800d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _database: {fileID: 1629011317}
+  database: {fileID: 0}
   setDoors: 0
   setRooms: 0
 --- !u!1 &631896243
@@ -2055,7 +2055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f93eca36e1469b873a17fc90a38c33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 786270579}
+  text: {fileID: 786270579}
 --- !u!1 &827394371
 GameObject:
   m_ObjectHideFlags: 0
@@ -2989,7 +2989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224130951485110974, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 224166536479716514, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchorMax.y
