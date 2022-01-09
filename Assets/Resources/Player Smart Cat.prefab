@@ -45,12 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d111b58c7137a20458896258f96d4278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  unitsLayers:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &6756852357598407606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,13 +57,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0

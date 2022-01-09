@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 290216398639022911}
-  - component: {fileID: 5696731541712181439}
   - component: {fileID: 4893477960947550352}
   m_Layer: 0
   m_Name: Player Engineer
@@ -33,24 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5696731541712181439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 290216398639022880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24c45512b8dbbb244942daa1600c3ff0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  unitsLayers:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &4893477960947550352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +49,7 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0

@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8094915601045393872}
   m_RootOrder: 0
@@ -106,6 +107,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5050198764380167603}
   - {fileID: 1035083376502697800}
@@ -125,7 +127,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6af4c75dc1f1ad44a667a55923c0dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 0}
+  model:
+    id: 0
+    gameObjectLink: {fileID: 0}
+    buttonRoom: {x: 0, y: 0}
+    room1: {x: 0, y: 0}
+    room2: {x: 0, y: 0}
+  buttonRoom: {x: 0, y: 0}
+  room1: {x: 0, y: 0}
+  room2: {x: 0, y: 0}
+  _button: {fileID: 8966193757451094847}
   pressButton: {fileID: 9001654812046214831}
 --- !u!1 &5493270226501710918
 GameObject:
@@ -154,6 +165,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 710119173175477190}
   m_RootOrder: 0
@@ -239,6 +251,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8094915601045393872}
   m_Father: {fileID: 710119173175477190}
@@ -339,6 +352,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6761570737385303860}
   m_Father: {fileID: 7262279889575808501}

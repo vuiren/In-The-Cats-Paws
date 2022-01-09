@@ -68,8 +68,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5221589667056538336}
   - component: {fileID: 663027256483570286}
-  - component: {fileID: 7144543891420396220}
-  - component: {fileID: 3694931403547638989}
+  - component: {fileID: -2407412728421950054}
+  - component: {fileID: 3419681301879802151}
   m_Layer: 7
   m_Name: Engineer
   m_TagString: Untagged
@@ -106,8 +106,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9bde20ea28a4b242b3902f4b0dc9a02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitType: 0
---- !u!114 &7144543891420396220
+  model:
+    id: 0
+    gameObjectLink: {fileID: 0}
+    room: {x: 0, y: 0}
+    unitType: 0
+    position: {x: 0, y: 0, z: 0}
+  initialized: 0
+  drawModel: {fileID: 8633367781816627892}
+--- !u!114 &-2407412728421950054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,13 +131,13 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents:
-  - {fileID: 3694931403547638989}
+  - {fileID: 3419681301879802151}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &3694931403547638989
+--- !u!114 &3419681301879802151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

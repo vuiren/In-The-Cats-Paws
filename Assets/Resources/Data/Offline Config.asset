@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a84ccedd37c8be444868d0b11513c1d2, type: 3}
+  m_Name: Offline Config
+  m_EditorClassIdentifier: 
+  catLayerMask:
+    serializedVersion: 2
+    m_Bits: 119
+  engineerLayerMask:
+    serializedVersion: 2
+    m_Bits: 183
+  unitTypeToPrefabs:
+  - unitType: 0
+    prefab: {fileID: 3668973550321471451, guid: 2a1705a21b746774d941e19c239e7732, type: 3}
+  - unitType: 1
+    prefab: {fileID: 3279957985927275829, guid: 3d8e0fd832451224892841af4a4b4897, type: 3}
+  - unitType: 2
+    prefab: {fileID: 3279957985927275829, guid: e3a86a353354dc54790834a5e3a3d344, type: 3}
+  - unitType: 3
+    prefab: {fileID: 3279957985927275829, guid: 8f6678977ce9c30478e23b2d009304d5, type: 3}
+  effects:
+  - effectType: 0
+    effectLiveTime: 5
+    effectPrefab: {fileID: 4675909327747340137, guid: 92b4da35f8bfa8346920109662cf4c46, type: 3}
+  playersCount: 1
+  unitMoveSpeed: 10

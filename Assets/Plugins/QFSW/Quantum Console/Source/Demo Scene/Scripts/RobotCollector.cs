@@ -1,8 +1,9 @@
-﻿using QFSW.QC.Utilities;
+﻿using QFSW.QC;
+using QFSW.QC.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QFSW.QC.Demo
+namespace Plugins.QFSW.Quantum_Console.Source.Demo_Scene.Scripts
 {
     public class RobotCollector : MonoBehaviour
     {

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65fda5c3bdf4426991b85c8cfeb24554, type: 3}
+  m_Name: New Pattern
+  m_EditorClassIdentifier: 
+  directionToSprites:
+  - directions: 030000000000000002000000
+    sprite: {fileID: 21300000, guid: ae15713c536ba4840a2ff312e711b393, type: 3}
+  - directions: 000000000200000001000000
+    sprite: {fileID: 21300000, guid: 503853151f0a3c8478d18108436e077b, type: 3}
+  - directions: 030000000200000001000000
+    sprite: {fileID: 21300000, guid: 78ee4aa347e90dc4ebf73161a408b339, type: 3}
+  - directions: 0300000002000000
+    sprite: {fileID: 21300000, guid: 287b6fdd4e1aa864b81860a018241244, type: 3}
+  - directions: 0300000001000000
+    sprite: {fileID: 21300000, guid: e0430aa221b29b8429de8a1f601b92f2, type: 3}
+  - directions: 0200000001000000
+    sprite: {fileID: 21300000, guid: 143b477639f6bf64995360270ebf695e, type: 3}
+  - directions: 0000000002000000
+    sprite: {fileID: 21300000, guid: f5be7bc176360524596874184dc34017, type: 3}
+  - directions: 0000000001000000
+    sprite: {fileID: 21300000, guid: e0bd28f9c4ef13643b157b623f728b18, type: 3}

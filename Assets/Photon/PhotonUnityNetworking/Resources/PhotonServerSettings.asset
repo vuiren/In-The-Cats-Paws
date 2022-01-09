@@ -34,35 +34,31 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - AddFreePointToRoomRPC
+  - CatWinRPC
   - ClickRpc
   - DestroyRpc
-  - DestroySpaceship
   - EndCurrentTurnRPC
-  - Fire
-  - FreePoint
-  - RegisterPlayerInTheRoomRPC
-  - RemovePlayerFromTheRoomPRC
-  - RespawnSpaceship
-  - SearchForPlayersRPC
-  - SwitchDoorStateRPC
-  - TakeLastPoint
-  - RefreshUnitsModel
-  - RefreshUnitsModelRPC
-  - SyncUnit
-  - SyncUnitRoom
-  - SyncUnitRoomRPC
-  - RegisterUnitToRoomRPC
-  - RemoveUnitFromRoomPRC
-  - RegisterUnitRPC
-  - RegisterPlayerRPC
-  - AddFreePointToRoomRPC
-  - GetFreePointFromRoomRPC
-  - StartExplosion
-  - StartExplosionRPC
-  - ExplodeRPC
-  - CatWinRPC
   - EngineerWinRPC
-  - RepairPointRPC
+  - GetFreePointFromRoomRPC
+  - RegisterUnitRPC
+  - RegisterUnitToRoomRPC
+  - RegisterUnitViewRPC
+  - RemoveUnitFromRoomPRC
+  - SearchForPlayersRPC
+  - SetUnitPositionRPC
+  - SwitchDoorStateRPC
+  - RegisterRoomRPC
+  - RegisterPlayerRPC
+  - LockCorridorRPC
+  - RegisterCorridorRPC
+  - PlayerReadyRPC
+  - UnitGoToRoomRPC
+  - IncIDRPC
+  - RegisterUnitForExplosionRPC
+  - GetPlaceInRoomRPC
+  - FixRepairPointRPC
+  - ReturnPlaceInRoomRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

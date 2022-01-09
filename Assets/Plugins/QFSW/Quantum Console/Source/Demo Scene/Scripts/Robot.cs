@@ -1,8 +1,9 @@
-﻿using QFSW.QC.Actions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using QFSW.QC;
+using QFSW.QC.Actions;
 using UnityEngine;
 
-namespace QFSW.QC.Demo
+namespace Plugins.QFSW.Quantum_Console.Source.Demo_Scene.Scripts
 {
     [CommandPrefix("demo.robot.")]
     public class Robot : MonoBehaviour
