@@ -8,19 +8,17 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
 {
     public sealed class CatWinWatcher
     {
-        private readonly IUnitExplosionService _explosionService;
         private readonly IUnitsService _unitsService;
         private readonly IWinService _winService;
 
         public CatWinWatcher(IWinService winService, IUnitsService unitsService, IUnitExplosionService explosionService)
         {
-            _explosionService = explosionService;
             _unitsService = unitsService;
             _winService = winService;
-            _explosionService.OnUnitExplosion(CheckIfCatWin);
+            explosionService.OnUnitExplosion(CheckIfCatWin);
         }
 
-        private async void CheckIfCatWin(Unit obj)
+        private void CheckIfCatWin(Unit obj)
         {
             var engineer = _unitsService.GetUnitsByUnitType(UnitType.Engineer).FirstOrDefault();
 
@@ -28,7 +26,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
 
             if (engineer.Room == obj.Room)
             {
-                await WaitDelay();
+              //  await WaitDelay();
                 _winService.CatWin();
             }
         }

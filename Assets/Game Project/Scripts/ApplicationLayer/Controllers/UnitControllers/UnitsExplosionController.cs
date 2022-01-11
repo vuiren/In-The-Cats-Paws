@@ -29,6 +29,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.UnitControllers
         
         private void TickExplosionService(Turn obj)
         {
+            if(obj == Turn.SmartCat)
             _explosionService.TickTimer();
         }
 
