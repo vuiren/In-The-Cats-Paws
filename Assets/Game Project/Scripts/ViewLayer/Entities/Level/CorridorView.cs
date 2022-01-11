@@ -1,5 +1,8 @@
 using Game_Project.Scripts.DataLayer.Level;
 using Game_Project.Scripts.ViewLayer.Entities.Base;
+#if UNITY_EDITOR 
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Game_Project.Scripts.ViewLayer.Entities.Level
@@ -7,12 +10,19 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
 	public sealed class CorridorView : Entity<Corridor>
 	{
 		[SerializeField] private Vector2Int room1, room2;
+		[SerializeField] private bool isShadowCorridor;
+		[SerializeField] private GameObject corridorCover;
 		[SerializeField] private GameObject closedCorridorRenderer, openedCorridorRenderer;
+		[SerializeField] private Vector3 debugTextOffset;
 		
 		protected override void SetModel()
 		{
-			model.Room1 = room1;
-			model.Room2 = room2;
+			model = new Corridor
+			{
+				Room1 = room1,
+				Room2 = room2,
+				ShadowCorridor = isShadowCorridor
+			};
 		}
 
 		public void DrawCorridor(bool draw)
@@ -21,18 +31,24 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
 			{
 				openedCorridorRenderer.SetActive(!model.Locked);
 				closedCorridorRenderer.SetActive(model.Locked);
+				corridorCover.SetActive(false);
 			}
 			else
 			{
 				openedCorridorRenderer.SetActive(true);
 				closedCorridorRenderer.SetActive(false);
+				corridorCover.SetActive(true);
 			}
 		}
 		
-		private void OnDrawGizmosSelected()
+		#if UNITY_EDITOR 
+		private void OnDrawGizmos()
 		{
-			Gizmos.color = Color.blue;
-			Gizmos.DrawLine(new Vector3(room1.x, room1.y), new Vector3(room2.x, room2.y));
+			var style = new GUIStyle();
+			style.normal.textColor = Color.red;
+			
+			Handles.Label(transform.position + debugTextOffset, $"{room1} to {room2}", style);
 		}
+		#endif
 	}
 }

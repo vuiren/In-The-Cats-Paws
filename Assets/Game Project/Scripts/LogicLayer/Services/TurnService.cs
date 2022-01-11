@@ -7,6 +7,7 @@ namespace Game_Project.Scripts.LogicLayer.Services
     {
         private Action<Turn> _onTick;
         private Turn _currentTurn;
+        private int _turnsEngineerSkipping;
         
         public void OnTurn(Action<Turn> action)
         {
@@ -27,7 +28,23 @@ namespace Game_Project.Scripts.LogicLayer.Services
                 _ => throw new ArgumentOutOfRangeException()
             };
 
+            if (_currentTurn == Turn.Engineer)
+            {
+                _turnsEngineerSkipping--;
+            }
+
+            _turnsEngineerSkipping = _turnsEngineerSkipping <= 0 ? 0 : _turnsEngineerSkipping;
             _onTick?.Invoke(_currentTurn);
+        }
+
+        public void AddEngineersSkippingTurn()
+        {
+            _turnsEngineerSkipping ++;
+        }
+
+        public bool IsEngineerSkippingTurn()
+        {
+            return _turnsEngineerSkipping > 0;
         }
     }
 }

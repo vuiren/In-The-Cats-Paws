@@ -9,14 +9,9 @@ namespace Game_Project.Scripts.NetworkLayer.Services
         void EngineerWin();
     }
     
-    [RequireComponent(typeof(PhotonView))]
-    public class NetworkGameSync: MonoBehaviour, INetworkGameSync
+    public class NetworkGameSync: MonoBehaviourPun, INetworkGameSync
     {
         private PhotonView _photonView;
-        private void Awake()
-        {
-            _photonView = GetComponent<PhotonView>();
-        }
 
         [PunRPC]
         private void CatWinRPC()

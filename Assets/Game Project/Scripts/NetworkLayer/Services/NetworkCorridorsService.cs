@@ -4,7 +4,6 @@ using Game_Project.Scripts.CommonLayer;
 using Game_Project.Scripts.CommonLayer.Factories;
 using Game_Project.Scripts.DataLayer.Level;
 using Game_Project.Scripts.LogicLayer.Interfaces;
-using Game_Project.Scripts.NetworkLayer.Base;
 using Game_Project.Scripts.ViewLayer.Entities.Level;
 using Mono.CSharp;
 using Photon.Pun;
@@ -13,15 +12,14 @@ using Zenject;
 
 namespace Game_Project.Scripts.NetworkLayer.Services
 {
-    public class NetworkCorridorsService : NetworkService, ICorridorsService
+    public class NetworkCorridorsService : MonoBehaviourPun, ICorridorsService
     {
         private IMyLogger _logger;
         private readonly Dictionary<Tuple<Vector2Int, Vector2Int>, Corridor> _corridors = new();
 
         [Inject]
-        protected override void Construct()
+        public void Construct()
         {
-            base.Construct();
             _logger = LoggerFactory.Create(this);
         }
 
@@ -50,13 +48,13 @@ namespace Game_Project.Scripts.NetworkLayer.Services
 
         public void RegisterCorridor(Corridor corridor)
         {
-            PhotonView.RPC("RegisterCorridorRPC", RpcTarget.All,
+            photonView.RPC("RegisterCorridorRPC", RpcTarget.All,
                  corridor.GameObjectLink.name);
         }
 
         public void LockCorridor(Vector2Int room1, Vector2Int room2, bool doLock)
         {
-            PhotonView.RPC("LockCorridorRPC", RpcTarget.All, 
+            photonView.RPC("LockCorridorRPC", RpcTarget.All, 
                  room1.x, room1.y, room2.x, room2.y, doLock);
         }
         

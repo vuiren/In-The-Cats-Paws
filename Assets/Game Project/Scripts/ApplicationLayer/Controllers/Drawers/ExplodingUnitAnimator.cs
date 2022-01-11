@@ -20,7 +20,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
         private void StopAnimatingUnit(Unit obj)
         {
             _tweens[obj].Kill();
-
+            _tweens.Remove(obj);
             var renderer = obj.GameObjectLink.GetComponentInChildren<SpriteRenderer>();
             renderer.DOColor(Color.white, 1f);
         }

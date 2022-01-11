@@ -23,9 +23,9 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Base
 
         [Inject]
         public virtual void Construct()
-        {
-            model.GameObjectLink = gameObject;
+        { 
             SetModel();
+            model.GameObjectLink = gameObject;
         }
     }
 }

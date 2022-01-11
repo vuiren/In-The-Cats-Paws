@@ -1,4 +1,7 @@
-﻿using Game_Project.Scripts.DataLayer;
+﻿using Game_Project.Scripts.ApplicationLayer.Controllers.UnitControllers;
+using Game_Project.Scripts.CommonLayer;
+using Game_Project.Scripts.CommonLayer.Factories;
+using Game_Project.Scripts.DataLayer;
 using Game_Project.Scripts.LogicLayer.Interfaces;
 using Game_Project.Scripts.ViewLayer.Data;
 using Game_Project.Scripts.ViewLayer.Entities.Level;
@@ -17,6 +20,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
         private readonly IUnitsSelectionService _unitsSelectionService;
         private readonly ITurnService _turnService;
         private readonly PlayerType _playerType;
+        private IMyLogger _logger;
 
         [Inject]
         public InputWorker(IInputService inputService, UnitMovingController unitMovingController,
@@ -24,6 +28,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
             ICurrentPlayerService currentPlayerService,
             ITurnService turnService)
         {
+            _logger = LoggerFactory.Create(this);
             _playerType = currentPlayerService.CurrentPlayerType();
             layerMask = _playerType == PlayerType.Engineer
                 ? staticData.engineerLayerMask
@@ -39,9 +44,17 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
         {
             if (_playerType.ToString() != _turnService.CurrentTurn().ToString()) return;
 
+            _logger.Log("Click");
             var hit = Physics2D.Raycast(pointerWorldPosition, -Vector2.up, 100, layerMask);
 
             if (!hit) return;
+            
+            var unitView = hit.transform.parent.GetComponent<UnitView>();
+            if (unitView)
+            {
+                _unitsSelectionService.SelectUnit(unitView.ID);
+                return;
+            }
 
             var roomView = hit.transform.parent.GetComponent<RoomView>();
             if (roomView)
@@ -54,11 +67,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
                 }
             }
 
-            var unitView = hit.transform.parent.GetComponent<UnitView>();
-            if (unitView)
-            {
-                _unitsSelectionService.SelectUnit(unitView.ID);
-            }
+
         }
     }
 }

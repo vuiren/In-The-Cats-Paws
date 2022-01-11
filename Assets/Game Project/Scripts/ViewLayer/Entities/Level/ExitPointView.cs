@@ -10,7 +10,10 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
         
         protected override void SetModel()
         {
-            model.Room = room;
+            model = new ExitPoint
+            {
+                Room = room
+            };
         }
     }
 }

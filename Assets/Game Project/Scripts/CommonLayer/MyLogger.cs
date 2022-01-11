@@ -25,26 +25,22 @@ namespace Game_Project.Scripts.CommonLayer
         public void Log(string message)
         {
             var callerInfo = string.Format("[{0}]", _caller.GetType().Name);
-            var frameInfo = string.Format("[Frame: {0}]", Time.frameCount);
-            Debug.Log(callerInfo + " " + frameInfo + " " + message);
+            Debug.Log(callerInfo + " " + message);
             _logsCount++;
         }
 
         public void LogWarning(string message)
         {
             var callerInfo = string.Format("[{0}]", _caller.GetType().Name);
-            var frameInfo = string.Format("[Frame: {0}]", Time.frameCount);
 
-            Debug.LogWarning(callerInfo + " " + frameInfo + " " + message);
+            Debug.LogWarning(callerInfo + " " + message);
             _logsCount++;
         }
 
         public void LogError(string message)
         {
             var callerInfo = string.Format("[{0}]", _caller.GetType().Name);
-            var frameInfo = string.Format("[Frame: {0}]", Time.frameCount);
-
-            Debug.LogError(callerInfo + " " + frameInfo + " " + message);
+            Debug.LogError(callerInfo + " " + message);
             _logsCount++;
         }
 

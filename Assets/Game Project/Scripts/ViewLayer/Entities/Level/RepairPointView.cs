@@ -19,9 +19,12 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
         
         protected override void SetModel()
         {
-            model.Room = room;
-            model.TurnsToFix = turnsToFix;
-            model.TurnsLeftToFix = turnsToFix;
+            model = new RepairPoint
+            {
+                Room = room,
+                TurnsToFix = turnsToFix,
+                TurnsLeftToFix = turnsToFix
+            };
         }
 
         public override void Construct()

@@ -1,6 +1,14 @@
-﻿using Game_Project.Scripts.LogicLayer.Interfaces;
+﻿using System;
+using System.Linq;
+using DG.Tweening;
+using Game_Project.Scripts.CommonLayer;
+using Game_Project.Scripts.CommonLayer.Factories;
+using Game_Project.Scripts.DataLayer;
+using Game_Project.Scripts.LogicLayer.Interfaces;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Game_Project.Scripts.ViewLayer.UI
 {
@@ -11,31 +19,48 @@ namespace Game_Project.Scripts.ViewLayer.UI
 		[SerializeField] private Text statusText;
 
 		private IPlayersService _playersService;
-		private ILogger _logger;
+		private IMyLogger _logger;
 		
-		/*[Inject]
-		public void Construct(ILogger logger, IPlayersService playersService,
-			IGameStatusService gameStatusService, ICurrentPlayerService currentPlayerService)
+		[Inject]
+		public void Construct(IPlayersService playersService, IGameStatusService gameStatusService, 
+			ICurrentPlayerService currentPlayerService)
 		{
 			_playersService = playersService;
-			_logger = logger;
-			_playersService.OnPlayerAdded(ShowPlayerImage);
+			_logger = LoggerFactory.Create(this);
+			_playersService.OnPlayerRegistered(ShowPlayerImage);
 
 			InitUI(currentPlayerService.CurrentPlayerType());
 			
-			var playerEngineer = _playersService.GetPlayerEngineer();
-			if (playerEngineer)
+			var playerEngineer = _playersService.GetAll().FirstOrDefault(x=>x.PlayerType == PlayerType.Engineer);
+			if (playerEngineer != null)
 			{
 				ShowPlayerImage(playerEngineer);
 			}
 
-			var smartCat = _playersService.GetPlayerSmartCat();
-			if (smartCat)
+			var smartCat = _playersService.GetAll().FirstOrDefault(x=>x.PlayerType == PlayerType.SmartCat );
+			if (smartCat != null)
 			{
 				ShowPlayerImage(smartCat);
 			}
 			
 			gameStatusService.RegisterForGameStart(HideWelcomeScreen);
+		}
+
+		private void ShowPlayerImage(Player obj)
+		{
+			switch (obj.PlayerType)
+			{
+				case PlayerType.Engineer:
+					_logger.Log("Showing image of engineer");
+					engineerImage.SetActive(true);
+					engineerImage.transform.DOMove(engineerImagePosition.position, 1f);
+					break;
+				case PlayerType.SmartCat:
+					_logger.Log("Showing image of smart cat");
+					catImage.SetActive(true);
+					catImage.transform.DOMove(catImagePosition.position, 1f);
+					break;
+			}
 		}
 
 		private void InitUI(PlayerType playerType)
@@ -75,22 +100,5 @@ namespace Game_Project.Scripts.ViewLayer.UI
 
 			});
 		}
-
-		private void ShowPlayerImage(PlayerView obj)
-		{
-			switch (obj)
-			{
-				case PlayerViewEngineer:
-					_logger.Log("Showing image of engineer");
-					engineerImage.SetActive(true);
-					engineerImage.transform.DOMove(engineerImagePosition.position, 1f);
-					break;
-				case PlayerViewSmartCat:
-					_logger.Log("Showing image of smart cat");
-					catImage.SetActive(true);
-					catImage.transform.DOMove(catImagePosition.position, 1f);
-					break;
-			}
-		}*/
 	}
 }

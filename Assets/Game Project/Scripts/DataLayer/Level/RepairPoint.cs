@@ -4,19 +4,14 @@ using UnityEngine;
 
 namespace Game_Project.Scripts.DataLayer.Level
 {
-    [Serializable]
     public sealed class RepairPoint : EntityModel
     {
-        [SerializeField] [AllowNesting] [ReadOnly]
         private bool pointFixed;
 
-        [SerializeField] [AllowNesting] [ReadOnly]
         private int turnsToFix;
 
-        [SerializeField] [AllowNesting] [ReadOnly]
         private Vector2Int room;
 
-        [SerializeField] [AllowNesting] [ReadOnly]
         private int turnsLeftToFix;
 
         public bool PointFixed

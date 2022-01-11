@@ -3,12 +3,11 @@ using UnityEngine;
 
 namespace Game_Project.Scripts.DataLayer.Level
 {
-    [Serializable]
     public sealed class Button : EntityModel
     {
-        [SerializeField] private Vector2Int buttonRoom;
+        private Vector2Int buttonRoom;
 
-        [SerializeField] private Vector2Int room1, room2;
+        private Vector2Int room1, room2;
 
         public Vector2Int ButtonRoom
         {

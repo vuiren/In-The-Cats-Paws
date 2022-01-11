@@ -21,9 +21,12 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
         
         protected override void SetModel()
         {
-            model.ButtonRoom = buttonRoom;
-            model.Room1 = room1;
-            model.Room2 = room2;
+            model = new Button
+            {
+                ButtonRoom = buttonRoom,
+                Room1 = room1,
+                Room2 = room2
+            };
         }
         
         public void DrawButton(bool draw)

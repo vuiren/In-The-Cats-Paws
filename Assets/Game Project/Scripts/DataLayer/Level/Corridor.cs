@@ -4,11 +4,17 @@ using UnityEngine;
 
 namespace Game_Project.Scripts.DataLayer.Level
 {
-    [Serializable]
     public sealed class Corridor: EntityModel
     {
-        [SerializeField] [AllowNesting] [ReadOnly] private Vector2Int room1, room2;
-        [SerializeField] private bool locked;
+        private Vector2Int room1, room2;
+        private bool shadowCorridor;
+        private bool locked;
+
+        public bool ShadowCorridor
+        {
+            get => shadowCorridor;
+            set => shadowCorridor = value;
+        }
 
         public Vector2Int Room1
         {

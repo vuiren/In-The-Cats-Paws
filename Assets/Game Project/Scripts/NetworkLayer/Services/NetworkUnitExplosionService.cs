@@ -5,13 +5,12 @@ using Game_Project.Scripts.CommonLayer;
 using Game_Project.Scripts.CommonLayer.Factories;
 using Game_Project.Scripts.DataLayer.Units;
 using Game_Project.Scripts.LogicLayer.Interfaces;
-using Game_Project.Scripts.NetworkLayer.Base;
 using Photon.Pun;
 using Zenject;
 
 namespace Game_Project.Scripts.NetworkLayer.Services
 {
-    public sealed class NetworkUnitExplosionService: NetworkService, IUnitExplosionService
+    public sealed class NetworkUnitExplosionService: MonoBehaviourPun, IUnitExplosionService
     {
         private IMyLogger _logger;
         private IUnitsService _unitsService;
@@ -19,9 +18,8 @@ namespace Game_Project.Scripts.NetworkLayer.Services
         private readonly Dictionary<int, int> _unitTurnsUntilExplosion = new(); //key - unitId, value - turnsLeft
 
         [Inject]
-        public void CustomConstruct(IUnitsService unitsService)
+        public void Construct(IUnitsService unitsService)
         {
-            base.Construct();
             _logger = LoggerFactory.Create(this);
             _unitsService = unitsService;
         }
@@ -49,7 +47,7 @@ namespace Game_Project.Scripts.NetworkLayer.Services
 
         public void RegisterUnitForExplosion(Unit unit, int turnsUntilExplosion)
         {
-            PhotonView.RPC("RegisterUnitForExplosionRPC", RpcTarget.All,
+            photonView.RPC("RegisterUnitForExplosionRPC", RpcTarget.All,
                 unit.ID, turnsUntilExplosion);
         }
         

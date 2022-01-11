@@ -1,26 +1,28 @@
 using System.Collections.Generic;
-using Game_Project.Scripts.CommonLayer;
-using Game_Project.Scripts.CommonLayer.Factories;
 using Game_Project.Scripts.DataLayer.Level;
 using Game_Project.Scripts.ViewLayer.Entities.Base;
+#if UNITY_EDITOR 
+using UnityEditor;
+#endif
 using UnityEngine;
-using Zenject;
 
 namespace Game_Project.Scripts.ViewLayer.Entities.Level
 {
 	public class RoomView : Entity<Room>
 	{
 		[SerializeField] private Vector2Int roomCoords;
-		[SerializeField] private Vector2Int[] exits;
 		[SerializeField] private bool isShadowRoom;
+		[SerializeField] private GameObject cover, coverForEngineer;
 		[SerializeField] private Transform pointsForUnitsParent;
 
-		public Vector2Int[] Exits => exits;
 
 		protected override void SetModel()
 		{
-			model.Coords = roomCoords;
-			model.ShadowRoom = isShadowRoom;
+			model = new Room
+			{
+				Coords = roomCoords,
+				ShadowRoom = isShadowRoom
+			};
 
 			var result = new List<Vector3>();
 			for (int i = 0; i < pointsForUnitsParent.childCount; i++)
@@ -32,13 +34,25 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
 			model.FreePoints = result;
 		}
 
-		private void OnDrawGizmosSelected()
+		public void Draw(bool draw)
 		{
-			foreach (var connectedRoom in exits)
-			{
-				Gizmos.DrawLine(transform.position,
-					new Vector3(connectedRoom.x, connectedRoom.y, transform.position.z));
-			}
+			cover.SetActive(!draw);
 		}
+
+		public void DrawForEngineer()
+		{
+			cover.SetActive(true);
+			coverForEngineer.SetActive(true);
+		}
+		
+		#if UNITY_EDITOR 
+		private void OnDrawGizmos()
+		{
+			var style = new GUIStyle();
+			style.normal.textColor = Color.green;
+			
+			Handles.Label(transform.position, roomCoords.ToString(), style);
+		}
+		#endif
 	}
 }

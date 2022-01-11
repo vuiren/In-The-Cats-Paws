@@ -4,20 +4,20 @@ using Game_Project.Scripts.CommonLayer;
 using Game_Project.Scripts.CommonLayer.Factories;
 using Game_Project.Scripts.DataLayer.Level;
 using Game_Project.Scripts.LogicLayer.Interfaces;
-using Game_Project.Scripts.NetworkLayer.Base;
 using Photon.Pun;
 using UnityEngine;
+using Zenject;
 
 namespace Game_Project.Scripts.NetworkLayer.Services
 {
-    public sealed class NetworkRepairPointsService : NetworkService, IRepairPointsService
+    public sealed class NetworkRepairPointsService : MonoBehaviourPun, IRepairPointsService
     {
         private readonly Dictionary<Vector2Int, RepairPoint> _repairPoints = new();
         private IMyLogger _logger;
 
-        protected override void Construct()
+        [Inject]
+        public void Construct()
         {
-            base.Construct();
             _logger = LoggerFactory.Create(this);
         }
 
@@ -49,7 +49,7 @@ namespace Game_Project.Scripts.NetworkLayer.Services
 
         public void FixRepairPoint(RepairPoint repairPoint)
         {
-            PhotonView.RPC("FixRepairPointRPC", RpcTarget.All, repairPoint.Room.x, repairPoint.Room.y);
+            photonView.RPC("FixRepairPointRPC", RpcTarget.All, repairPoint.Room.x, repairPoint.Room.y);
         }
 
         [PunRPC]

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Game_Project.Scripts.ApplicationLayer.Controllers;
 using Game_Project.Scripts.ApplicationLayer.Controllers.Drawers;
 using Game_Project.Scripts.CommonLayer;
 using Game_Project.Scripts.CommonLayer.Factories;
@@ -34,15 +35,20 @@ namespace Game_Project.Scripts.ApplicationLayer
 		private StaticData _staticData;
 		private IUnitsService _unitsService;
 		private IMapDrawer _mapDrawer;
-		
-		[Inject]
+		private TurnUIController _turnUIController;
+		private IUnitsSelectionService _selectionService;
+
+			[Inject]
 		public void Construct(IRoomsService roomsService,
 			ICorridorsService corridorsService, IButtonsService buttonsService, IRepairPointsService repairPointsService,
 			IExitPointsService exitPointsService, ISpawnPointsService spawnPointsService, IUnitFactory unitFactory,
 			StaticData staticData, IPlayersService playersService, IGameStatusService gameStatusService, 
-			ICurrentPlayerService currentPlayerService, IUnitsService unitsService, IMapDrawer mapDrawer)
+			ICurrentPlayerService currentPlayerService, IUnitsService unitsService, IMapDrawer mapDrawer,
+			TurnUIController turnUIController, IUnitsSelectionService selectionService)
 		{
 			_logger = LoggerFactory.Create(this);
+			_selectionService = selectionService;
+			_turnUIController = turnUIController;
 			_roomsService = roomsService;
 			_corridorsService = corridorsService;
 			_buttonsService = buttonsService;
@@ -67,20 +73,26 @@ namespace Game_Project.Scripts.ApplicationLayer
 			SetPlayerReady();
 			await WaitForBothPlayersReady();
 			RegisterAllUnits();
-			SetUnitsPositions();
 			SetStartVisibility();
+			SetStartUI();
+			SetStartSelectedUnit();
 			StartGame();
 		}
 
-		private void SetUnitsPositions()
+		private void SetStartSelectedUnit()
 		{
-			var units = _unitsService.GetAll();
-			foreach (var unit in units)
+			if (_currentPlayerService.CurrentPlayerType() == PlayerType.Engineer)
 			{
-				var point = _roomsService.GetPlaceInRoom(unit.Room);
-				unit.Position = point;
+				var engineer = _unitsService.GetUnitsByUnitType(UnitType.Engineer).First();
+				_selectionService.SelectUnit(engineer.ID);
 			}
 		}
+
+		private void SetStartUI()
+		{
+			_turnUIController.RedrawUI(Turn.Engineer);
+		}
+
 
 		private void RegisterAllUnits()
 		{

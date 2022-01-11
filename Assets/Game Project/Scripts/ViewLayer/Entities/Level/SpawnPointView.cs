@@ -17,9 +17,12 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
 		
 		protected override void SetModel()
 		{
-			model.Room = room;
-			model.UnitType = spawnUnitUnitType;
-			model.GameObjectLink = gameObject;
+			model = new SpawnPoint
+			{
+				Room = room,
+				UnitType = spawnUnitUnitType,
+				GameObjectLink = gameObject
+			};
 		}
 	}
 }

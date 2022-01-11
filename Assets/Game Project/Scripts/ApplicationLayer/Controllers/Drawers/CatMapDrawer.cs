@@ -17,29 +17,35 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
         private readonly IButtonsService _buttonsService;
         private readonly ICorridorsService _corridorsService;
         private readonly IRepairPointsService _repairPointsService;
+        private readonly IRoomsService _roomsService;
         private readonly IUnitsSelectionService _selectionService;
+        private readonly ITurnService _turnService;
 
         public CatMapDrawer(ITurnService turnService, ICorridorsService corridorsService,
             IUnitsService unitsService, IRepairPointsService repairPointsService, IButtonsService buttonsService,
-            IUnitsSelectionService selectionService, ICurrentPlayerService currentPlayerService)
+            IUnitsSelectionService selectionService, ICurrentPlayerService currentPlayerService,
+            IRoomsService roomsService)
         {
+            _turnService = turnService;
             _unitsService = unitsService;
             _corridorsService = corridorsService;
             _buttonsService = buttonsService;
             _repairPointsService = repairPointsService;
             _selectionService = selectionService;
+            _roomsService = roomsService;
 
             if (currentPlayerService.CurrentPlayerType() != PlayerType.SmartCat) return;
-            
+
             turnService.OnTurn(ReDrawMap);
-            _selectionService.RegisterOnUnitSelection(x=>ReDrawMap());
-            _selectionService.RegisterOnUnitDeselection(x=>ReDrawMap());
+            _selectionService.RegisterOnUnitSelection(x => ReDrawMap());
+            _selectionService.RegisterOnUnitDeselection(x => ReDrawMap());
         }
 
         public void ReDrawMap()
         {
             DrawCorridors();
             DrawUnits();
+            DrawRooms();
 
             foreach (var repairPoint in _repairPointsService.GetAll())
             {
@@ -53,9 +59,32 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
                 .GetAll()
                 .Where(x => smartCatUnitTypes.Contains(x.UnitType));
 
-            DrawForButtonPusher(smartCatBots);
-            DrawForBiter(smartCatBots);
-            DrawForBomb(smartCatBots);
+            var catBots = smartCatBots as Unit[] ?? smartCatBots.ToArray();
+            DrawForButtonPusher(catBots);
+            DrawForBiter(catBots);
+            DrawForBomb(catBots);
+        }
+
+        private void DrawRooms()
+        {
+            foreach (var room in _roomsService.GetAll())
+            {
+                var view = room.GameObjectLink.GetComponent<RoomView>();
+
+                if (room.ShadowRoom)
+                {
+                    var draw = _unitsService
+                        .GetAll()
+                        .Where(x=>x.UnitType != UnitType.Engineer)
+                        .Any(x => x.Room == room.Coords);
+
+                    view.Draw(draw);
+                }
+                else
+                {
+                    view.Draw(true);
+                }
+            }
         }
 
         private void DrawForBomb(IEnumerable<Unit> smartCatBots)
@@ -75,6 +104,17 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
 
         private void DrawForBiter(IEnumerable<Unit> smartCatBots)
         {
+            if (_turnService.IsEngineerSkippingTurn())
+            {
+                var biter2 = smartCatBots.SingleOrDefault(x => x.UnitType == UnitType.CatBotBiter);
+                if (biter2 == null) return;
+                
+                var biter2View = biter2.GameObjectLink.GetComponent<CatBiteView>();
+                biter2View.Draw(false);
+                
+                return;
+            }
+            
             var engineer = _unitsService.GetUnitsByUnitType(UnitType.Engineer).FirstOrDefault();
             if (engineer == null) return;
             var engineerRoom = engineer.Room;
@@ -113,10 +153,33 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
 
         private void DrawUnits()
         {
-            foreach (var unit in _unitsService.GetAll())
+            var units = _unitsService.GetAll();
+            foreach (var unit in units)
             {
                 var view = unit.GameObjectLink.GetComponent<UnitView>();
-                view.DrawUnit(true);
+
+                if (unit.UnitType == UnitType.Engineer)
+                {
+                    var anyUnitInTheSameRoomWithEngineer =
+                        units.Any(x => x.Room == unit.Room && x.UnitType != UnitType.Engineer);
+
+                    if (anyUnitInTheSameRoomWithEngineer)
+                    {
+                        view.DrawUnit(true);
+                        continue;
+                    }
+                    
+                    var hideEngineer = _roomsService
+                        .GetAll()
+                        .Where(x => x.ShadowRoom)
+                        .Any(x => x.Coords == unit.Room);
+                    
+                    view.DrawUnit(!hideEngineer);
+                }
+                else
+                {
+                    view.DrawUnit(true);
+                }
             }
         }
 
@@ -125,7 +188,20 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
             foreach (var corridor in _corridorsService.GetAll())
             {
                 var view = corridor.GameObjectLink.GetComponent<CorridorView>();
-                view.DrawCorridor(true);
+
+                if (corridor.ShadowCorridor)
+                {
+                    var draw = _unitsService
+                        .GetAll()
+                        .Where(x=>x.UnitType != UnitType.Engineer)
+                        .Any(x => x.Room == corridor.Room1 || x.Room == corridor.Room2);
+                    
+                    view.DrawCorridor(draw);
+                }
+                else
+                {
+                    view.DrawCorridor(true);
+                }
             }
         }
 

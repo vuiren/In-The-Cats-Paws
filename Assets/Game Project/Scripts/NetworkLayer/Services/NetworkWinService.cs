@@ -1,10 +1,9 @@
 ﻿using Game_Project.Scripts.LogicLayer.Interfaces;
-using Game_Project.Scripts.NetworkLayer.Base;
 using Photon.Pun;
 
 namespace Game_Project.Scripts.NetworkLayer.Services
 {
-    public sealed class NetworkWinService : NetworkService, IWinService
+    public sealed class NetworkWinService : MonoBehaviourPun, IWinService
     {
         public void CatWin()
         {

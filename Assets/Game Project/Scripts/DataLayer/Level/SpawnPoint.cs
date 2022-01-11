@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace Game_Project.Scripts.DataLayer.Level
 {
-    [Serializable]
     public class SpawnPoint: EntityModel
     {
-        [SerializeField] private Vector2Int room;
-        [SerializeField] private UnitType unitType;
+        private Vector2Int room;
+        private UnitType unitType;
 
         public Vector2Int Room
         {

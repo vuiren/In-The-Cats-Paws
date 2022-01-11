@@ -1,4 +1,5 @@
 ﻿using Game_Project.Scripts.ApplicationLayer.Controllers.Drawers;
+using Game_Project.Scripts.ApplicationLayer.Controllers.UnitControllers;
 using Zenject;
 
 namespace Game_Project.Scripts.ApplicationLayer.Controllers
@@ -19,6 +20,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
             container.Bind<CatWinWatcher>().ToSelf().AsSingle().NonLazy();
             container.Bind<RepairPointsController>().ToSelf().AsSingle().NonLazy();
             container.Bind<CatBombController>().ToSelf().AsSingle().NonLazy();
+            container.Bind<CatBiteController>().ToSelf().AsSingle().NonLazy();
 
             BindDrawers(container);
         }   

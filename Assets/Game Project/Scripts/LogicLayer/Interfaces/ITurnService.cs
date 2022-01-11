@@ -8,5 +8,7 @@ namespace Game_Project.Scripts.LogicLayer.Interfaces
         void OnTurn(Action<Turn> action);
         Turn CurrentTurn();
         void EndCurrentTurn();
+        void AddEngineersSkippingTurn();
+        bool IsEngineerSkippingTurn();
     }
 }

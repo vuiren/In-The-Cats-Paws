@@ -21,15 +21,16 @@ namespace Game_Project.Scripts.ApplicationLayer.Factories
         public NetworkUnitFactory(NetworkPrefabFactory prefabFactory, StaticData staticData, IUnitsService unitsService,
             IRoomsService roomsService)
         {
-            _roomsService = roomsService;
             _prefabFactory = prefabFactory;
             _staticData = staticData;
             _unitsService = unitsService;
+            _roomsService = roomsService;
         }
 
         public UnitView CreateUnit(GameObject unitPrefab, SpawnPointView spawnPoint)
         {
             var position = spawnPoint.SpawnPointTransform.position;
+;
             var unitInstance =
                 _prefabFactory.Create(unitPrefab.name, position, false);
 
@@ -45,6 +46,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Factories
                 Position = position,
             };
             _unitsService.RegisterUnit(unitModel);
+            _unitsService.UnitGoToRoom(unitModel.ID, spawnPoint.model.Room);
             unitView.Construct(unitModel, _staticData);
             return unitView;
         }

@@ -22,7 +22,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
             turnService.OnTurn(RedrawUI);
         }
 
-        private void RedrawUI(Turn obj)
+        public void RedrawUI(Turn obj)
         {
             if (obj.ToString() == _playerType.ToString())
             {

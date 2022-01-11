@@ -5,14 +5,14 @@ using Game_Project.Scripts.CommonLayer;
 using Game_Project.Scripts.CommonLayer.Factories;
 using Game_Project.Scripts.DataLayer.Units;
 using Game_Project.Scripts.LogicLayer.Interfaces;
-using Game_Project.Scripts.NetworkLayer.Base;
+using Game_Project.Scripts.ViewLayer.Entities.Units;
 using Photon.Pun;
 using UnityEngine;
 using Zenject;
 
 namespace Game_Project.Scripts.NetworkLayer.Services
 {
-    public sealed class NetworkUnitsService : NetworkService, IUnitsService
+    public sealed class NetworkUnitsService : MonoBehaviourPun, IUnitsService
     {
         private readonly Dictionary<int, Unit> _units = new();
         private IMyLogger _logger;
@@ -20,9 +20,8 @@ namespace Game_Project.Scripts.NetworkLayer.Services
         private Action<Unit> _onUnitRegistered;
 
         [Inject]
-        protected override void Construct()
+        public void Construct()
         {
-            base.Construct();
             _logger = LoggerFactory.Create(this);
         }
 
@@ -55,13 +54,13 @@ namespace Game_Project.Scripts.NetworkLayer.Services
 
         public void RegisterUnit(Unit unit)
         {
-            PhotonView.RPC("RegisterUnitRPC", RpcTarget.All,
+            photonView.RPC("RegisterUnitRPC", RpcTarget.All,
                 unit.GameObjectLink.name, unit.ID, unit.Room.x, unit.Room.y, unit.Position, unit.UnitType);
         }
 
         public void UnitGoToRoom(int unitId, Vector2Int room)
         {
-            PhotonView.RPC("UnitGoToRoomRPC", RpcTarget.All, unitId, room.x, room.y);
+            photonView.RPC("UnitGoToRoomRPC", RpcTarget.All, unitId, room.x, room.y);
         }
         
         [PunRPC]
@@ -78,6 +77,8 @@ namespace Game_Project.Scripts.NetworkLayer.Services
                 UnitType = unitType,
                 GameObjectLink = gameObjectLink,
             };
+
+            gameObjectLink.GetComponent<UnitView>().model = unit;
             
             var id = unit.ID;
             
@@ -99,10 +100,10 @@ namespace Game_Project.Scripts.NetworkLayer.Services
         private void UnitGoToRoomRPC(int unitId, int x, int y)
         {
             var roomCoords = new Vector2Int(x, y);
-            _units[unitId].Room = roomCoords;
+            _logger.Log($"Sending unit with id {unitId} to the room {roomCoords} over the network");
 
-            var room = _roomsService.GetRoomByCoord(roomCoords);
-            _units[unitId].Position = room.GameObjectLink.transform.position;
+            _units[unitId].Room = roomCoords;
+            _units[unitId].Position = _roomsService.GetPlaceInRoom(roomCoords);
         }
     }
 }

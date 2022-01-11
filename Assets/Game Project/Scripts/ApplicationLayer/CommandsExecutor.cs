@@ -1,5 +1,6 @@
 ﻿using Game_Project.Scripts.ApplicationLayer.Controllers;
 using Game_Project.Scripts.ApplicationLayer.Controllers.Drawers;
+using Game_Project.Scripts.ApplicationLayer.Controllers.UnitControllers;
 using Game_Project.Scripts.CommonLayer;
 using Game_Project.Scripts.CommonLayer.Factories;
 using Game_Project.Scripts.LogicLayer.Interfaces;
@@ -68,6 +69,12 @@ namespace Game_Project.Scripts.ApplicationLayer
             _catMapDrawer = catMapDrawer;
             _mapDrawer = mapDrawer;
             _winService = winService;
+        }
+
+        [Command("game.units.biteEngineer")]
+        private void BiteEngineer()
+        {
+            _turnService.AddEngineersSkippingTurn();
         }
 
         [Command("game.win.engineer")]

@@ -35,7 +35,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers
         
         private async UniTask WaitDelay()
         {
-            await Task.Delay(3000);
+            await Task.Delay(500);
         }
     }
 }

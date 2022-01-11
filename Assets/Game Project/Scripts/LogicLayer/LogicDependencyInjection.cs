@@ -14,10 +14,8 @@ namespace Game_Project.Scripts.LogicLayer
             Container.Bind<ITurnService>().To<TurnService>().AsSingle();
             Container.Bind<IPlayersService>().To<PlayersService>().AsSingle();
             Container.Bind<IUnitsSelectionService>().To<UnitsSelectionService>().AsSingle();
-            Container.Bind<IRoomsPointsService>().To<RoomsPointsService>().AsSingle();        
             Container.Bind<IRepairPointsService>().To<RepairPointsService>().AsSingle();        
             Container.Bind<IUnitExplosionService>().To<UnitExplosionService>().AsSingle().NonLazy();  
-            Container.Bind<IUnitPositionService>().To<UnitPositionService>().AsSingle();
         }
     }
 }

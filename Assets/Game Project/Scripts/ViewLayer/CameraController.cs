@@ -1,5 +1,7 @@
-﻿using Game_Project.Scripts.ViewLayer.Entities.Level;
+﻿using Game_Project.Scripts.LogicLayer.Interfaces;
+using Game_Project.Scripts.ViewLayer.Entities.Level;
 using UnityEngine;
+using Zenject;
 
 namespace Game_Project.Scripts.ViewLayer
 {
@@ -9,14 +11,15 @@ namespace Game_Project.Scripts.ViewLayer
 		[SerializeField] private Transform unZoomPosition;
 		[SerializeField] private float zoomSize, unZoomSize, zoomSpeed, moveSpeed;
 
-		private Camera _camera;
 
-		public GameObject selectedUnit;
-		public RoomView selectedRoomView;
+		private IUnitsSelectionService _selectionService;
+		[SerializeField] private Camera _camera;
 		public bool zoom;
 
-		private void Awake()
+		[Inject]
+		public void Construct(IUnitsSelectionService selectionService)
 		{
+			_selectionService = selectionService;
 			_camera = GetComponent<Camera>();
 		}
 
@@ -30,11 +33,12 @@ namespace Game_Project.Scripts.ViewLayer
 					zoom ? zoomSize : unZoomSize,
 					zoomSpeed * Time.deltaTime);
 
-			if (selectedUnit && zoom)
+			var selectedUnit = _selectionService.GetSelectedUnit();
+			if (selectedUnit != null && zoom)
 			{
 				var position = _camera.transform.position;
 				var cameraPos = position;
-				var targetPos = selectedUnit.transform.position;
+				var targetPos = selectedUnit.GameObjectLink.transform.position;
 				targetPos.z = cameraPos.z;
 
 				position = Vector3.MoveTowards(position, targetPos, moveSpeed * Time.deltaTime);

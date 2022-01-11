@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace Game_Project.Scripts.DataLayer.Level
 {
-    [Serializable]
     public sealed class Room : EntityModel
     {
-        [SerializeField] private Vector2Int coords;
-        [SerializeField] private bool shadowRoom;
-        [SerializeField] private List<Vector3> freePoints;
+        private Vector2Int coords;
+        private bool shadowRoom;
+        private List<Vector3> freePoints;
 
         public List<Vector3> FreePoints
         {

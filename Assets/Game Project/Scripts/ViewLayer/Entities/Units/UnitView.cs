@@ -1,4 +1,5 @@
 using Game_Project.Scripts.DataLayer.Units;
+using Game_Project.Scripts.LogicLayer.Interfaces;
 using Game_Project.Scripts.ViewLayer.Data;
 using Game_Project.Scripts.ViewLayer.Entities.Base;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Units
 		[SerializeField] private bool initialized;
 		[SerializeField] private GameObject drawModel;
 
+		
 		[Inject]
 		public void Construct(Unit unit, StaticData staticData)
 		{
