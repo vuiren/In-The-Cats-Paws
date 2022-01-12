@@ -20,7 +20,7 @@ namespace Game_Project.Scripts.ApplicationLayer
 
         private void SetEntitiesIds<T>() where T: EntityModel
         {
-            SetIds(GetEntities<T>());
+            //SetIds(GetEntities<T>());
         }
 
         private void SetIds<T>(IReadOnlyList<Entity<T>> entities) where T : IEntityWithID, IEntityWithGameObjectLink

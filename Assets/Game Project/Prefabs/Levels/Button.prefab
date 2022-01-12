@@ -127,12 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6af4c75dc1f1ad44a667a55923c0dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model:
-    id: 0
-    gameObjectLink: {fileID: 0}
-    buttonRoom: {x: 0, y: 0}
-    room1: {x: 0, y: 0}
-    room2: {x: 0, y: 0}
   buttonRoom: {x: 0, y: 0}
   room1: {x: 0, y: 0}
   room2: {x: 0, y: 0}
@@ -281,7 +275,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 1536755485
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &9127201179531030936
 MonoBehaviour:
@@ -511,6 +505,18 @@ PrefabInstance:
     - target: {fileID: 5042984101390550294, guid: 157a769ce1ec1e4408a067b3881fa937, type: 3}
       propertyPath: m_Name
       value: Connection
+      objectReference: {fileID: 0}
+    - target: {fileID: 6151030685084196185, guid: 157a769ce1ec1e4408a067b3881fa937, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6151030685084196185, guid: 157a769ce1ec1e4408a067b3881fa937, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6151030685084196185, guid: 157a769ce1ec1e4408a067b3881fa937, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1536755485
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 157a769ce1ec1e4408a067b3881fa937, type: 3}

@@ -33,6 +33,8 @@ namespace Game_Project.Scripts.ApplicationLayer.Installers
             Container.BindInstance(sceneData).AsSingle();
             Container.BindInstance(sceneData.gameManager).AsSingle().NonLazy();
             Container.BindInstance(commandsExecutor).AsSingle().NonLazy();
+            Container.BindInstance(sceneData.cameraController).AsSingle().NonLazy();
+            Container.Bind<AudioSource>().FromInstance(sceneData.backgroundMusic).AsSingle().NonLazy();
             Container.Bind<IUnitFactory>().To<OfflineUnitFactory>().AsSingle();
             Container.Bind<IWinService>().To<WinService>().AsSingle().NonLazy();
         }

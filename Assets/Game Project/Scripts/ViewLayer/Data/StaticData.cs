@@ -20,10 +20,23 @@ namespace Game_Project.Scripts.ViewLayer.Data
 		public GameObject effectPrefab;
 	}
 
+	public enum SoundType
+	{
+		EngineerGameMusic,
+		SmartCatGameMusic,
+	}
+	
+	[Serializable]
+	public sealed class Sound
+	{
+		
+	}
+
 	[CreateAssetMenu(fileName = "Config", menuName = "Config/Add Config")]
 	public sealed class StaticData : ScriptableObject
 	{
 		public LayerMask catLayerMask, engineerLayerMask;
+		public AudioClip engineerGameMusic, catGameMusic;
 		public UnitTypeToPrefab[] unitTypeToPrefabs;
 		public Effect[] effects;
 		public int playersCount = 2;

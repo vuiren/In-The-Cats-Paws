@@ -29,6 +29,8 @@ namespace Game_Project.Scripts.ApplicationLayer.Installers
             Container.Bind<SceneData>().FromInstance(sceneData).AsSingle();
             Container.Bind<GameManager>().FromInstance(sceneData.gameManager).NonLazy();
             Container.Bind<NetworkPrefabFactory>().ToSelf().AsSingle();
+            Container.Bind<AudioSource>().FromInstance(sceneData.backgroundMusic).AsSingle().NonLazy();
+            Container.BindInstance(sceneData.cameraController).AsSingle();
             Container.Bind<IUnitFactory>().To<NetworkUnitFactory>().AsSingle(); 
             Container.Bind<CommandsExecutor>().FromInstance(commandsExecutor).AsSingle().NonLazy();
         }
@@ -45,6 +47,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Installers
             Container.Bind<IUnitExplosionService>().FromInstance(sceneData.networkUnitExplosionService).AsSingle();
             Container.Bind<ITurnService>().FromInstance(sceneData.turnsService).AsSingle();
             Container.Bind<IWinService>().FromInstance(sceneData.networkWinService).AsSingle();
+            Container.Bind<IChatService>().FromInstance(sceneData.networkChatService).AsSingle();
         }
 
         private void LevelBindings()

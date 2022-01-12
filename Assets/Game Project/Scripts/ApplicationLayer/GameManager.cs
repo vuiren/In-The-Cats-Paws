@@ -37,6 +37,7 @@ namespace Game_Project.Scripts.ApplicationLayer
 		private IMapDrawer _mapDrawer;
 		private TurnUIController _turnUIController;
 		private IUnitsSelectionService _selectionService;
+		private AudioSource _backgroundMusic;
 
 			[Inject]
 		public void Construct(IRoomsService roomsService,
@@ -44,7 +45,7 @@ namespace Game_Project.Scripts.ApplicationLayer
 			IExitPointsService exitPointsService, ISpawnPointsService spawnPointsService, IUnitFactory unitFactory,
 			StaticData staticData, IPlayersService playersService, IGameStatusService gameStatusService, 
 			ICurrentPlayerService currentPlayerService, IUnitsService unitsService, IMapDrawer mapDrawer,
-			TurnUIController turnUIController, IUnitsSelectionService selectionService)
+			TurnUIController turnUIController, IUnitsSelectionService selectionService, AudioSource backgroundMusic)
 		{
 			_logger = LoggerFactory.Create(this);
 			_selectionService = selectionService;
@@ -62,11 +63,11 @@ namespace Game_Project.Scripts.ApplicationLayer
 			_currentPlayerService = currentPlayerService;
 			_unitsService = unitsService;
 			_mapDrawer = mapDrawer;
+			_backgroundMusic = backgroundMusic;
 		}
 
 		private async void Start()
 		{
-			SetEntitiesIds();
 			AddEntitiesToSystems();
 			CreatePlayerForUser();
 			CreateUnitsForPlayer();
@@ -77,6 +78,13 @@ namespace Game_Project.Scripts.ApplicationLayer
 			SetStartUI();
 			SetStartSelectedUnit();
 			StartGame();
+			await StartBackgroundMusicWithDelay();
+		}
+
+		private async Task StartBackgroundMusicWithDelay()
+		{
+			await Task.Delay(3000);
+			_backgroundMusic.Play();
 		}
 
 		private void SetStartSelectedUnit()
@@ -109,12 +117,6 @@ namespace Game_Project.Scripts.ApplicationLayer
 			_playersService.PlayerReady(_currentPlayerService.CurrentPlayerType());
 		}
 
-		private void SetEntitiesIds()
-		{
-			var entitiesSetter = new EntitiyIDsSetter();
-			entitiesSetter.SetIDs();
-		}
-		
 		private void CreateUnitsForPlayer()
 		{
 			var engineerTypes = new[] {UnitType.Engineer};

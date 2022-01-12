@@ -20,11 +20,12 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
         private readonly IRoomsService _roomsService;
         private readonly IUnitsSelectionService _selectionService;
         private readonly ITurnService _turnService;
+        private readonly IUnitExplosionService _explosionService;
 
         public CatMapDrawer(ITurnService turnService, ICorridorsService corridorsService,
             IUnitsService unitsService, IRepairPointsService repairPointsService, IButtonsService buttonsService,
             IUnitsSelectionService selectionService, ICurrentPlayerService currentPlayerService,
-            IRoomsService roomsService)
+            IRoomsService roomsService, IUnitExplosionService unitExplosionService)
         {
             _turnService = turnService;
             _unitsService = unitsService;
@@ -32,6 +33,7 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
             _buttonsService = buttonsService;
             _repairPointsService = repairPointsService;
             _selectionService = selectionService;
+            _explosionService = unitExplosionService;
             _roomsService = roomsService;
 
             if (currentPlayerService.CurrentPlayerType() != PlayerType.SmartCat) return;
@@ -99,7 +101,12 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Drawers
                 return;
             }
 
-            bomb.GameObjectLink.GetComponent<CatBombView>().Draw(selectedUnit.UnitType == UnitType.CatBotBomb);
+            var isExploding = _explosionService
+                .GetAll()
+                .FirstOrDefault(x => x.Item1 == bomb.ID) != null;
+            
+            bomb.GameObjectLink.GetComponent<CatBombView>()
+                .Draw(selectedUnit.UnitType == UnitType.CatBotBomb && !isExploding);
         }
 
         private void DrawForBiter(IEnumerable<Unit> smartCatBots)

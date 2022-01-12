@@ -17,9 +17,11 @@ namespace Game_Project.Scripts.ViewLayer.UI
 		[SerializeField] private GameObject welcomeScreen, catImage, engineerImage, youCatText, youEngineerText;
 		[SerializeField] private Transform catImagePosition, engineerImagePosition;
 		[SerializeField] private Text statusText;
+		[SerializeField] private AudioSource engineerLine, smartCatLine;
 
 		private IPlayersService _playersService;
 		private IMyLogger _logger;
+		private ICurrentPlayerService _currentPlayerService;
 		
 		[Inject]
 		public void Construct(IPlayersService playersService, IGameStatusService gameStatusService, 
@@ -28,7 +30,7 @@ namespace Game_Project.Scripts.ViewLayer.UI
 			_playersService = playersService;
 			_logger = LoggerFactory.Create(this);
 			_playersService.OnPlayerRegistered(ShowPlayerImage);
-
+			_currentPlayerService = currentPlayerService;
 			InitUI(currentPlayerService.CurrentPlayerType());
 			
 			var playerEngineer = _playersService.GetAll().FirstOrDefault(x=>x.PlayerType == PlayerType.Engineer);
@@ -85,6 +87,14 @@ namespace Game_Project.Scripts.ViewLayer.UI
 
 		private void HideWelcomeScreen()
 		{
+			if (_currentPlayerService.CurrentPlayerType() == PlayerType.SmartCat)
+			{
+				engineerLine.Play();
+			}
+			else
+			{
+				smartCatLine.Play();
+			}
 			statusText.DOText("3", 1f).OnComplete(() =>
 			{
 				statusText.DOText("2", 1f).OnComplete(() =>

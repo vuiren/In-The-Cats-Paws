@@ -7,7 +7,6 @@ namespace Game_Project.Scripts.ApplicationLayer.Controllers.Input
 	public abstract class PlayerInput : MonoBehaviour
 	{
 		protected IInputService InputService;
-		[SerializeField]
 		protected Camera Camera;
 		
 		[Inject]

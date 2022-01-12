@@ -13,7 +13,7 @@ namespace Game_Project.Scripts.ViewLayer
 
 
 		private IUnitsSelectionService _selectionService;
-		[SerializeField] private Camera _camera;
+		private Camera _camera;
 		public bool zoom;
 
 		[Inject]

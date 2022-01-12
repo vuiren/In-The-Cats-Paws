@@ -12,11 +12,13 @@ namespace Game_Project.Scripts.ApplicationLayer
 		public MouseInput mouseInput;
 		public TouchInput touchInput;
 		public CameraController cameraController;
+		public AudioSource backgroundMusic;
 		public GameManager gameManager;
 
 		#region Network
 
 		public NetworkRoomsService networkRoomsService;
+		public NetworkChatService networkChatService;
 		public NetworkPlayersService playersService;
 		public NetworkCorridorsService corridorsService;
 		public NetworkTurnsService turnsService;

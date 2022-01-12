@@ -38,8 +38,25 @@ namespace Game_Project.Scripts.NetworkLayer.Services
 
         public void RegisterRoom(Room room)
         {
-            photonView.RPC("RegisterRoomRPC", RpcTarget.All,
-                room.GameObjectLink.name);
+            var roomModel = room.GameObjectLink.GetComponent<RoomView>().model;
+
+            var coords = roomModel.Coords;
+
+            _logger.Log($"Registering room {coords}");
+
+            if (_map.ContainsKey(roomModel.Coords))
+            {
+                _logger.LogWarning($"Room with id {roomModel.ID} already registered");
+            }
+            else
+            {
+                _map.Add(roomModel.Coords, roomModel);
+            }
+
+            _logger.Log($"Done registering room {coords}");
+            
+            /*photonView.RPC("RegisterRoomRPC", RpcTarget.All,
+                room.GameObjectLink.name);*/
         }
 
         public Vector3 GetPlaceInRoom(Vector2Int room)

@@ -14,14 +14,17 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
 		[SerializeField] private bool isShadowRoom;
 		[SerializeField] private GameObject cover, coverForEngineer;
 		[SerializeField] private Transform pointsForUnitsParent;
+		[SerializeField] private int roomId;
 
 
 		protected override void SetModel()
 		{
+			roomId = transform.GetSiblingIndex();
 			model = new Room
 			{
 				Coords = roomCoords,
-				ShadowRoom = isShadowRoom
+				ShadowRoom = isShadowRoom,
+				ID = transform.GetSiblingIndex(),
 			};
 
 			var result = new List<Vector3>();

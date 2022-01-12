@@ -3,5 +3,6 @@
     public enum EffectType
     {
         ExplosionEffect,
+        SmallExplosionEffect
     }
 }

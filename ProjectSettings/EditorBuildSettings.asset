@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Launcher Project/Scenes/Launcher.unity
+    path: Assets/Launcher Project/Launcher.unity
     guid: 9db0ae8a0a32096459e9ccf431f3f3c8
   - enabled: 1
-    path: Assets/Game Project/Scenes/Network Game Scene.unity
+    path: Assets/Game Project/Scenes/Levels/Network Game Scene 1.unity
     guid: 246a21af6471d6049aad8ba7b0290b91
   - enabled: 1
     path: Assets/Game Project/Scenes/CatWinScene.unity
@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Map Generator Project/Scenes/Map Generation.unity
     guid: 45423e7be1a1da943b47218762e736ca
+  - enabled: 1
+    path: Assets/Game Project/Scenes/Levels/Network Game Scene 2.unity
+    guid: 91daac3d3ae2f4b46a164352a666a1be
   m_configObjects: {}

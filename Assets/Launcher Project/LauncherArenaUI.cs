@@ -9,7 +9,7 @@ namespace Launcher_Project
     {
         [SerializeField] private Text player1Text, player2Text;
         [SerializeField] private Button startGameButton;
-
+        [SerializeField] private GameObject levelSelectionUI;
         public override void OnEnable()
         {
             SetUI();
@@ -25,6 +25,8 @@ namespace Launcher_Project
 
             startGameButton.GetComponentInChildren<Text>().text = !PhotonNetwork.IsMasterClient ? 
                 "Ждём создателя комнаты" : "Ждём второго игрока";
+
+            levelSelectionUI.SetActive(PhotonNetwork.IsMasterClient);
         }
 
 
@@ -45,6 +47,9 @@ namespace Launcher_Project
 
                 index++;
             }
+            
+            levelSelectionUI.SetActive(PhotonNetwork.IsMasterClient);
+
         }
 
         public override void OnJoinedRoom()
@@ -63,6 +68,7 @@ namespace Launcher_Project
             if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 2)
             {
                 startGameButton.GetComponentInChildren<Text>().text = "Начать игру";
+                levelSelectionUI.SetActive(PhotonNetwork.IsMasterClient);
                 startGameButton.interactable = true;
             }
         }
@@ -84,11 +90,18 @@ namespace Launcher_Project
             startGameButton.interactable = false;
         }
 
+        private int _sceneIndex = 1;
+        
         public void LoadArena()
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount != 2) return;
             if (PhotonNetwork.IsMasterClient)
-                PhotonNetwork.LoadLevel("Network Game Scene");
+                PhotonNetwork.LoadLevel("Network Game Scene " + _sceneIndex);
+        }
+
+        public void SetSceneIndex(int index)
+        {
+            _sceneIndex = index + 1;
         }
 
         public void LeaveRoom()

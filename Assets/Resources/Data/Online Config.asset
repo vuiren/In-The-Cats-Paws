@@ -18,6 +18,8 @@ MonoBehaviour:
   engineerLayerMask:
     serializedVersion: 2
     m_Bits: 183
+  engineerGameMusic: {fileID: 8300000, guid: c4079ff20e448cb48be109a0d5aa0e45, type: 3}
+  catGameMusic: {fileID: 0}
   unitTypeToPrefabs:
   - unitType: 0
     prefab: {fileID: 3668973550321471451, guid: 2a1705a21b746774d941e19c239e7732, type: 3}
@@ -31,5 +33,8 @@ MonoBehaviour:
   - effectType: 0
     effectLiveTime: 5
     effectPrefab: {fileID: 4675909327747340137, guid: 92b4da35f8bfa8346920109662cf4c46, type: 3}
+  - effectType: 1
+    effectLiveTime: 5
+    effectPrefab: {fileID: 4675909327747340137, guid: 026d272a2ff869b479c6fcae94c4ee2d, type: 3}
   playersCount: 2
   unitMoveSpeed: 10

@@ -12,7 +12,6 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Units
 		private float _moveSpeed;
 		[SerializeField] private bool initialized;
 		[SerializeField] private GameObject drawModel;
-
 		
 		[Inject]
 		public void Construct(Unit unit, StaticData staticData)

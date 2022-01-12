@@ -9,19 +9,24 @@ namespace Game_Project.Scripts.ViewLayer.Entities.Level
 {
 	public sealed class CorridorView : Entity<Corridor>
 	{
+		[SerializeField] private int corridorId;
 		[SerializeField] private Vector2Int room1, room2;
-		[SerializeField] private bool isShadowCorridor;
+		[SerializeField] private bool isShadowCorridor, isLocked;
 		[SerializeField] private GameObject corridorCover;
 		[SerializeField] private GameObject closedCorridorRenderer, openedCorridorRenderer;
 		[SerializeField] private Vector3 debugTextOffset;
 		
 		protected override void SetModel()
 		{
+			var id = transform.GetSiblingIndex();
+			corridorId = id;
 			model = new Corridor
 			{
 				Room1 = room1,
 				Room2 = room2,
-				ShadowCorridor = isShadowCorridor
+				ShadowCorridor = isShadowCorridor,
+				Locked = isLocked,
+				ID = id,
 			};
 		}
 

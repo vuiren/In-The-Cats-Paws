@@ -1095,7 +1095,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3207736394855480148}
   - component: {fileID: 2859016043509567812}
-  - component: {fileID: 4771563144496712153}
   m_Layer: 0
   m_Name: UpRight Room Node
   m_TagString: Untagged
@@ -1140,28 +1139,7 @@ MonoBehaviour:
   cover: {fileID: 7595800513686449837}
   coverForEngineer: {fileID: 422301903108893319}
   pointsForUnitsParent: {fileID: 1501486529834160532}
---- !u!114 &4771563144496712153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3207736394855480149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  roomId: 9
 --- !u!1 &3948260917889597498
 GameObject:
   m_ObjectHideFlags: 0
@@ -2691,11 +2669,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7164879502254282460, guid: 8a274836aea02da45868ab061519486b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0554
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7164879502254282460, guid: 8a274836aea02da45868ab061519486b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0746
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7164879502254282460, guid: 8a274836aea02da45868ab061519486b, type: 3}
       propertyPath: m_LocalPosition.z
